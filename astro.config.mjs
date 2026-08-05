@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config"
 import sitemap from "@astrojs/sitemap"
 
 export default defineConfig({
-  site: "https://health-calculators.zikakitomota.workers.dev",
+  site: "https://health.zaleastudio.com",
   output: "static",
   integrations: [sitemap()],
   compressHTML: true,
