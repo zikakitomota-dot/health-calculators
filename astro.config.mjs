@@ -1,9 +1,10 @@
 import { defineConfig } from "astro/config"
+import sitemap from "@astrojs/sitemap"
 
-// Static site output, ready for Cloudflare Pages.
 export default defineConfig({
-  site: "https://health-calculators.pages.dev",
+  site: "https://health-calculators.zikakitomota.workers.dev",
   output: "static",
+  integrations: [sitemap()],
   compressHTML: true,
   server: {
     host: true,
