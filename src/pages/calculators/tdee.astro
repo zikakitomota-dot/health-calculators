@@ -1,0 +1,84 @@
+---
+import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
+import BodyFields from "@/components/BodyFields.astro"
+
+const faqs = [
+  {
+    q: "What is TDEE?",
+    a: "Total Daily Energy Expenditure is the estimated total number of calories you burn in a day, including your resting metabolism plus everyday movement and exercise.",
+  },
+  {
+    q: "How is the activity multiplier chosen?",
+    a: "Your BMR is multiplied by a factor from 1.2 (sedentary) to 1.9 (extra active). Pick the level that best matches a typical week. If you are unsure, choosing a slightly lower level is more conservative.",
+  },
+  {
+    q: "How accurate is TDEE?",
+    a: "It is an estimate. Real energy expenditure varies with genetics, body composition, and daily habits. Use it as a starting point and adjust based on real-world results over a few weeks.",
+  },
+  {
+    q: "How do I lose or gain weight with TDEE?",
+    a: "Eating below your TDEE creates a deficit for weight loss; eating above it creates a surplus for gain. A change of about 500 calories per day is often used to target roughly 0.5 kg per week.",
+  },
+]
+---
+
+<CalculatorLayout
+  title="TDEE Calculator — Total Daily Energy Expenditure"
+  description="Estimate your Total Daily Energy Expenditure (TDEE) — the calories you burn per day — from your BMR and activity level. Free calorie calculator, metric & imperial."
+  heading="TDEE Calculator"
+  intro="Estimate how many calories you burn in a full day by combining your resting metabolism with your activity level."
+  slug="tdee"
+  faqs={faqs}
+>
+  <div slot="tool" class="tool">
+    <div class="unit-toggle" role="group" aria-label="Measurement system">
+      <button type="button" data-unit="metric" aria-pressed="true">Metric</button>
+      <button type="button" data-unit="imperial" aria-pressed="false">Imperial</button>
+    </div>
+
+    <form novalidate data-calc>
+      <BodyFields />
+      <div class="field">
+        <label for="activity">Activity level</label>
+        <select id="activity" name="activity">
+          <option value="sedentary">Sedentary — little or no exercise</option>
+          <option value="light">Lightly active — 1–3 days/week</option>
+          <option value="moderate" selected>Moderately active — 3–5 days/week</option>
+          <option value="active">Very active — 6–7 days/week</option>
+          <option value="athlete">Extra active — hard training / physical job</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Calculate TDEE</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" data-result hidden aria-live="polite">
+      <p class="result-label">Your estimated daily calories (TDEE)</p>
+      <p class="result-value" data-value>—</p>
+      <p>Resting metabolism (BMR): <strong data-bmr>—</strong></p>
+      <p class="result-label" style="margin-top:1rem;">Calorie targets by goal</p>
+      <ul data-goals></ul>
+    </div>
+  </div>
+
+  <Fragment slot="formula">
+    <p>TDEE builds on your Basal Metabolic Rate (BMR) from the Mifflin-St Jeor equation, then applies an activity multiplier:</p>
+    <p class="formula">TDEE = BMR × activity factor</p>
+    <p>The standard activity factors are:</p>
+    <p class="formula">Sedentary 1.2 · Light 1.375 · Moderate 1.55 · Very active 1.725 · Extra active 1.9</p>
+    <p>The higher your typical weekly activity, the larger the multiplier and the more calories you are estimated to burn.</p>
+  </Fragment>
+
+  <Fragment slot="example">
+    <p><strong>Person:</strong> a man with a BMR of 1,700 kcal who trains 3–5 days per week (moderate, factor 1.55).</p>
+    <p class="formula">TDEE = 1,700 × 1.55 = 2,635 kcal/day</p>
+    <p>He burns about <strong>2,635 calories</strong> per day. To lose roughly 0.5 kg per week he would aim for about 2,085 kcal.</p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { setupTdee } from "@/scripts/tdee"
+  setupTdee()
+</script>

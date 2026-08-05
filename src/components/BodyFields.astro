@@ -1,0 +1,52 @@
+---
+// Shared sex / age / height / weight inputs with metric & imperial variants.
+---
+<div class="field-row">
+  <div class="field">
+    <label for="sex">Sex</label>
+    <select id="sex" name="sex">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="age">Age (years)</label>
+    <input id="age" name="age" type="number" inputmode="numeric" min="15" max="100" step="1" />
+    <span class="error" data-error-for="age" role="alert"></span>
+  </div>
+</div>
+
+<div data-metric>
+  <div class="field-row">
+    <div class="field">
+      <label for="height-cm">Height (cm)</label>
+      <input id="height-cm" name="heightCm" type="number" inputmode="decimal" min="50" max="272" step="0.1" />
+      <span class="error" data-error-for="height-cm" role="alert"></span>
+    </div>
+    <div class="field">
+      <label for="weight-kg">Weight (kg)</label>
+      <input id="weight-kg" name="weightKg" type="number" inputmode="decimal" min="10" max="500" step="0.1" />
+      <span class="error" data-error-for="weight-kg" role="alert"></span>
+    </div>
+  </div>
+</div>
+
+<div data-imperial hidden>
+  <div class="field-row">
+    <div class="field">
+      <label for="height-ft">Height (ft)</label>
+      <input id="height-ft" name="heightFt" type="number" inputmode="numeric" min="1" max="8" step="1" />
+      <span class="error" data-error-for="height-ft" role="alert"></span>
+    </div>
+    <div class="field">
+      <label for="height-in">Height (in)</label>
+      <input id="height-in" name="heightIn" type="number" inputmode="decimal" min="0" max="11.9" step="0.1" />
+      <span class="error" data-error-for="height-in" role="alert"></span>
+    </div>
+    <div class="field">
+      <label for="weight-lb">Weight (lb)</label>
+      <input id="weight-lb" name="weightLb" type="number" inputmode="decimal" min="20" max="1100" step="0.1" />
+      <span class="error" data-error-for="weight-lb" role="alert"></span>
+    </div>
+  </div>
+</div>

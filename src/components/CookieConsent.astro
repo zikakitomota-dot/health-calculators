@@ -1,0 +1,51 @@
+---
+// Cookie consent area. Stores the choice locally so it can later be wired to
+// Google Consent Mode (e.g. gtag('consent', 'update', {...})).
+---
+
+<div
+  class="cookie-banner"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-title"
+  data-cookie-banner
+  hidden
+>
+  <p id="cookie-title">
+    We use cookies for basic analytics and to support this site. You can accept
+    or decline non-essential cookies. See our <a href="/privacy">Privacy Policy</a>.
+  </p>
+  <div class="actions">
+    <button class="btn btn-ghost" data-cookie-decline>Decline</button>
+    <button class="btn btn-primary" data-cookie-accept>Accept</button>
+  </div>
+</div>
+
+<script>
+  const KEY = "cookie-consent"
+  const banner = document.querySelector("[data-cookie-banner]")
+  if (banner) {
+    const stored = localStorage.getItem(KEY)
+    if (!stored) banner.removeAttribute("hidden")
+
+    const decide = (value: "accepted" | "declined") => {
+      localStorage.setItem(KEY, value)
+      banner.setAttribute("hidden", "")
+      // Hook for Google Consent Mode:
+      // window.gtag?.("consent", "update", {
+      //   analytics_storage: value === "accepted" ? "granted" : "denied",
+      //   ad_storage: value === "accepted" ? "granted" : "denied",
+      // })
+      document.dispatchEvent(
+        new CustomEvent("cookie-consent", { detail: value }),
+      )
+    }
+
+    banner
+      .querySelector("[data-cookie-accept]")
+      ?.addEventListener("click", () => decide("accepted"))
+    banner
+      .querySelector("[data-cookie-decline]")
+      ?.addEventListener("click", () => decide("declined"))
+  }
+</script>

@@ -1,0 +1,59 @@
+---
+const path = Astro.url.pathname
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href)
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/calculators/bmi", label: "BMI" },
+  { href: "/calculators/bmr", label: "BMR" },
+  { href: "/calculators/tdee", label: "TDEE" },
+  { href: "/calculators/ideal-weight", label: "Ideal Weight" },
+  { href: "/calculators/calorie-deficit", label: "Deficit" },
+  { href: "/calculators/water-intake", label: "Water" },
+  { href: "/calculators/walking-calories", label: "Walking" },
+  { href: "/about", label: "About" },
+]
+---
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">H</span>
+      <span>Health Calculators</span>
+    </a>
+    <button
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="main-nav"
+      data-nav-toggle
+    >
+      Menu
+    </button>
+    <nav class="main-nav" id="main-nav" aria-label="Primary">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-nav-toggle]")
+  const nav = document.getElementById("main-nav")
+  toggle?.addEventListener("click", () => {
+    const open = nav?.classList.toggle("open")
+    toggle.setAttribute("aria-expanded", String(Boolean(open)))
+  })
+</script>

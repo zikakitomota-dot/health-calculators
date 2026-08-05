@@ -1,0 +1,72 @@
+---
+import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
+import BodyFields from "@/components/BodyFields.astro"
+
+const faqs = [
+  {
+    q: "What is BMR?",
+    a: "Basal Metabolic Rate is the number of calories your body burns at complete rest to keep essential functions running — breathing, circulation, and cell production. It does not include any physical activity.",
+  },
+  {
+    q: "Which formula does this use?",
+    a: "It uses the Mifflin-St Jeor equation, widely regarded as one of the most accurate predictive formulas for resting energy expenditure in healthy adults.",
+  },
+  {
+    q: "What is the difference between BMR and TDEE?",
+    a: "BMR is calories burned at rest. TDEE (Total Daily Energy Expenditure) multiplies BMR by an activity factor to estimate the calories you burn across a full day including movement and exercise.",
+  },
+  {
+    q: "How can I use my BMR?",
+    a: "BMR is the starting point for estimating daily calorie needs. Combine it with your activity level to find your TDEE, then adjust up or down depending on whether you want to gain, maintain, or lose weight.",
+  },
+]
+---
+
+<CalculatorLayout
+  title="BMR Calculator — Basal Metabolic Rate (Mifflin-St Jeor)"
+  description="Calculate your Basal Metabolic Rate (BMR) — the calories your body burns at rest — using the Mifflin-St Jeor equation. Free, instant, metric and imperial."
+  heading="BMR Calculator"
+  intro="Estimate the number of calories your body burns at rest each day using the Mifflin-St Jeor equation."
+  slug="bmr"
+  faqs={faqs}
+>
+  <div slot="tool" class="tool">
+    <div class="unit-toggle" role="group" aria-label="Measurement system">
+      <button type="button" data-unit="metric" aria-pressed="true">Metric</button>
+      <button type="button" data-unit="imperial" aria-pressed="false">Imperial</button>
+    </div>
+
+    <form novalidate data-calc>
+      <BodyFields />
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Calculate BMR</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" data-result hidden aria-live="polite">
+      <p class="result-label">Your estimated BMR</p>
+      <p class="result-value" data-value>—</p>
+      <p>This is roughly the energy your body needs at complete rest. Add your activity level with the <a href="/calculators/tdee">TDEE calculator</a> to estimate full daily needs.</p>
+    </div>
+  </div>
+
+  <Fragment slot="formula">
+    <p>The Mifflin-St Jeor equation estimates resting energy from weight, height, age, and sex:</p>
+    <p class="formula">Men: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age + 5</p>
+    <p class="formula">Women: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age − 161</p>
+    <p>The only difference between the two is the final constant, which reflects average differences in body composition. Imperial inputs are converted to kilograms and centimetres before the formula is applied.</p>
+  </Fragment>
+
+  <Fragment slot="example">
+    <p><strong>Person:</strong> a 30-year-old woman, 165 cm tall, weighing 62 kg.</p>
+    <p class="formula">BMR = 10×62 + 6.25×165 − 5×30 − 161</p>
+    <p class="formula">= 620 + 1031.25 − 150 − 161 = 1340 kcal/day</p>
+    <p>She burns roughly <strong>1,340 calories</strong> per day at rest.</p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { setupBmr } from "@/scripts/bmr"
+  setupBmr()
+</script>

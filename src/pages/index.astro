@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import AdSlot from "@/components/AdSlot.astro"
+import { calculators } from "@/data/calculators"
+
+const title = "Health Calculators — Free BMI, BMR, TDEE & More"
+const description =
+  "A free collection of private health and fitness calculators: BMI, BMR, TDEE, ideal weight, calorie deficit, water intake and walking calories. All run in your browser."
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Health Calculators",
+  itemListElement: calculators.map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: c.name,
+    url: `https://health-calculators.pages.dev/calculators/${c.slug}`,
+  })),
+}
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="page-intro">
+    <p class="eyebrow">Free &amp; private &mdash; no sign up</p>
+    <h1>Health &amp; fitness calculators that run in your browser</h1>
+    <p class="lead">
+      Estimate your BMI, daily calorie needs, hydration goals and more. Every
+      calculation happens on your device &mdash; nothing is uploaded, stored, or
+      shared. Metric and imperial units supported throughout.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/calculators/bmi">Try the BMI calculator</a>
+      <a class="btn btn-ghost" href="#calculators">Browse all calculators</a>
+    </div>
+  </section>
+
+  <section id="calculators" aria-labelledby="all-heading">
+    <h2 id="all-heading">All calculators</h2>
+    <div class="card-grid">
+      {
+        calculators.map((c) => (
+          <a class="calc-card" href={`/calculators/${c.slug}`}>
+            <span class="tag">{c.category}</span>
+            <h3>{c.name}</h3>
+            <p>{c.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <AdSlot variant="horizontal" label="Advertisement space (responsive)" />
+
+  <section class="prose" aria-labelledby="why-heading">
+    <h2 id="why-heading">Why use these calculators?</h2>
+    <p>
+      Whether you are tracking a fitness goal or just curious about the numbers
+      behind common health metrics, these tools give you quick, transparent
+      estimates using well-established formulas. Each calculator explains the
+      formula it uses, shows a worked example, and links to related tools so you
+      can build a fuller picture.
+    </p>
+    <ul>
+      <li><strong>Private by design:</strong> calculations never leave your device.</li>
+      <li><strong>Metric &amp; imperial:</strong> switch units with a single tap.</li>
+      <li><strong>Accessible:</strong> full keyboard support and clear labels.</li>
+      <li><strong>Educational:</strong> understand the math, not just the result.</li>
+    </ul>
+    <p class="disclaimer-note">
+      These calculators provide general estimates for educational purposes only
+      and are not medical advice. Always consult a qualified healthcare
+      professional for guidance about your health.
+    </p>
+  </section>
+</BaseLayout>

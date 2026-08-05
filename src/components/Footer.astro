@@ -1,0 +1,46 @@
+---
+import { calculators } from "@/data/calculators"
+const year = new Date().getFullYear()
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Health Calculators</h4>
+        <p style="color:var(--muted);font-size:0.9rem;max-width:22rem;">
+          Free, private health and fitness calculators that run entirely in
+          your browser. For education only &mdash; not medical advice.
+        </p>
+      </div>
+      <nav aria-label="Calculators">
+        <h4>Calculators</h4>
+        <ul>
+          {
+            calculators.map((c) => (
+              <li>
+                <a href={`/calculators/${c.slug}`}>{c.name}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <nav aria-label="Company">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/disclaimer">Health Disclaimer</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom container" style="padding-inline:0;">
+      <p style="margin:0;">
+        &copy; {year} Health Calculators. Information provided is for general
+        educational purposes only and is not a substitute for professional
+        medical advice.
+      </p>
+    </div>
+  </div>
+</footer>

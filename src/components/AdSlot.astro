@@ -1,0 +1,17 @@
+---
+// Reserved, responsive space for a future Google AdSense unit.
+// No real or fake ad is rendered; only a placeholder is shown.
+interface Props {
+  variant?: "box" | "horizontal"
+  label?: string
+}
+const { variant = "box", label = "Advertisement space" } = Astro.props
+---
+
+<aside
+  class={`ad-slot ${variant === "horizontal" ? "ad-slot--horizontal" : ""}`}
+  aria-hidden="true"
+  data-ad-slot
+>
+  <span>{label}</span>
+</aside>

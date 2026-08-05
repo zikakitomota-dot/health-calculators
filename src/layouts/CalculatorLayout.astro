@@ -1,0 +1,102 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import AdSlot from "@/components/AdSlot.astro"
+import { relatedCalculators } from "@/data/calculators"
+
+interface FaqItem {
+  q: string
+  a: string
+}
+
+interface Props {
+  title: string
+  description: string
+  heading: string
+  intro: string
+  slug: string
+  faqs: FaqItem[]
+}
+
+const { title, description, heading, intro, slug, faqs } = Astro.props
+const related = relatedCalculators(slug, 4)
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+}
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <div class="page-intro">
+    <p class="eyebrow">Health Calculator</p>
+    <h1>{heading}</h1>
+    <p class="lead">{intro}</p>
+  </div>
+
+  <div class="calc-layout" style="margin-top:2rem;">
+    <div>
+      <!-- Calculator tool goes here -->
+      <slot name="tool" />
+
+      <!-- Formula explanation -->
+      <section class="prose" aria-labelledby="formula-heading">
+        <h2 id="formula-heading">How it works</h2>
+        <slot name="formula" />
+      </section>
+
+      <AdSlot variant="horizontal" label="Advertisement space (responsive)" />
+
+      <!-- Worked example -->
+      <section class="prose" aria-labelledby="example-heading">
+        <h2 id="example-heading">Example calculation</h2>
+        <div class="example-box">
+          <slot name="example" />
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq" aria-labelledby="faq-heading">
+        <h2 id="faq-heading">Frequently asked questions</h2>
+        {
+          faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </section>
+
+      <!-- Related calculators -->
+      <section class="related" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related calculators</h2>
+        <ul class="related-links">
+          {
+            related.map((c) => (
+              <li>
+                <a href={`/calculators/${c.slug}`}>{c.name}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <p class="disclaimer-note">
+        This tool is for general educational purposes only and does not provide
+        medical advice, diagnosis, or treatment. Talk to a qualified healthcare
+        professional before making health decisions. Read our
+        <a href="/disclaimer">health disclaimer</a>.
+      </p>
+    </div>
+
+    <div class="sidebar">
+      <AdSlot label="Advertisement space" />
+      <AdSlot label="Advertisement space" />
+    </div>
+  </div>
+</BaseLayout>

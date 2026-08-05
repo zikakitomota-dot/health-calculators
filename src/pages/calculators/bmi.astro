@@ -1,0 +1,123 @@
+---
+import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
+
+const faqs = [
+  {
+    q: "What is a healthy BMI range?",
+    a: "For most adults, a BMI between 18.5 and 24.9 is considered the healthy range. Below 18.5 is classed as underweight and 25 or above as overweight. BMI is a general screening tool, not a diagnosis.",
+  },
+  {
+    q: "Does BMI work for athletes?",
+    a: "Not always. BMI does not distinguish muscle from fat, so very muscular people may show a high BMI while having low body fat. Use it as one data point alongside other measures.",
+  },
+  {
+    q: "Is BMI accurate for children?",
+    a: "This calculator is intended for adults. Children and teenagers use age- and sex-specific BMI percentile charts instead of fixed categories.",
+  },
+  {
+    q: "Should I use BMI to make health decisions?",
+    a: "BMI is a rough screening estimate only. It is not a substitute for advice from a qualified healthcare professional who can consider your full situation.",
+  },
+]
+---
+
+<CalculatorLayout
+  title="BMI Calculator — Body Mass Index (Metric & Imperial)"
+  description="Calculate your Body Mass Index (BMI) from height and weight in metric or imperial units. Free, private, and instant — with an explanation of the BMI formula."
+  heading="BMI Calculator"
+  intro="Enter your height and weight to estimate your Body Mass Index and see which standard weight category it falls into."
+  slug="bmi"
+  faqs={faqs}
+>
+  <div slot="tool" class="tool">
+    <div class="unit-toggle" role="group" aria-label="Measurement system">
+      <button type="button" data-unit="metric" aria-pressed="true">Metric</button>
+      <button type="button" data-unit="imperial" aria-pressed="false">Imperial</button>
+    </div>
+
+    <form novalidate data-calc>
+      <div data-metric>
+        <div class="field-row">
+          <div class="field">
+            <label for="height-cm">Height (cm)</label>
+            <input id="height-cm" name="heightCm" type="number" inputmode="decimal" min="50" max="272" step="0.1" />
+            <span class="error" data-error-for="height-cm" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="weight-kg">Weight (kg)</label>
+            <input id="weight-kg" name="weightKg" type="number" inputmode="decimal" min="10" max="500" step="0.1" />
+            <span class="error" data-error-for="weight-kg" role="alert"></span>
+          </div>
+        </div>
+      </div>
+
+      <div data-imperial hidden>
+        <div class="field-row">
+          <div class="field">
+            <label for="height-ft">Height (ft)</label>
+            <input id="height-ft" name="heightFt" type="number" inputmode="numeric" min="1" max="8" step="1" />
+            <span class="error" data-error-for="height-ft" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="height-in">Height (in)</label>
+            <input id="height-in" name="heightIn" type="number" inputmode="decimal" min="0" max="11.9" step="0.1" />
+            <span class="error" data-error-for="height-in" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="weight-lb">Weight (lb)</label>
+            <input id="weight-lb" name="weightLb" type="number" inputmode="decimal" min="20" max="1100" step="0.1" />
+            <span class="error" data-error-for="weight-lb" role="alert"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Calculate BMI</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" data-result hidden aria-live="polite">
+      <p class="result-label">Your estimated BMI</p>
+      <p class="result-value" data-value>—</p>
+      <p><span class="badge" data-category></span></p>
+      <ul>
+        <li>Underweight: below 18.5</li>
+        <li>Healthy weight: 18.5 – 24.9</li>
+        <li>Overweight: 25 – 29.9</li>
+        <li>Obese: 30 and above</li>
+      </ul>
+    </div>
+  </div>
+
+  <Fragment slot="formula">
+    <p>Body Mass Index compares your weight to your height using this formula:</p>
+    <p class="formula">BMI = weight (kg) ÷ [height (m)]²</p>
+    <p>
+      For imperial units, the equivalent formula multiplies by a conversion
+      factor:
+    </p>
+    <p class="formula">BMI = 703 × weight (lb) ÷ [height (in)]²</p>
+    <p>
+      The result is grouped into standard categories set by the World Health
+      Organization. Because BMI uses only height and weight, it cannot tell the
+      difference between muscle and fat, so treat it as a general screening
+      estimate.
+    </p>
+  </Fragment>
+
+  <Fragment slot="example">
+    <p><strong>Person:</strong> 170 cm tall, weighing 68 kg.</p>
+    <p>Convert height to metres: 170 cm = 1.70 m.</p>
+    <p class="formula">BMI = 68 ÷ (1.70 × 1.70) = 68 ÷ 2.89 = 23.5</p>
+    <p>
+      A BMI of <strong>23.5</strong> falls within the healthy weight range of
+      18.5 – 24.9.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { setupBmi } from "@/scripts/bmi"
+  setupBmi()
+</script>

@@ -1,0 +1,94 @@
+---
+import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
+import BodyFields from "@/components/BodyFields.astro"
+
+const faqs = [
+  {
+    q: "What is a calorie deficit?",
+    a: "A calorie deficit means eating fewer calories than your body burns in a day. Over time this prompts the body to use stored energy, which can lead to weight loss.",
+  },
+  {
+    q: "How big should my deficit be?",
+    a: "A moderate deficit of roughly 300–550 calories per day is commonly used and is generally more sustainable than an aggressive one. Very large deficits can be hard to maintain and may cost you muscle.",
+  },
+  {
+    q: "Why 7,700 calories per kilogram?",
+    a: "A kilogram of body fat stores roughly 7,700 calories, so a total weekly deficit of about 7,700 calories corresponds to roughly 1 kg of fat loss. This is an approximation, not an exact rule.",
+  },
+  {
+    q: "Is a calorie deficit safe for everyone?",
+    a: "Not always. Needs vary, and going too low can be harmful. This tool is educational only — talk to a doctor or registered dietitian before starting a weight-loss plan, especially if you have any health conditions.",
+  },
+]
+---
+
+<CalculatorLayout
+  title="Calorie Deficit Calculator — Daily Calories for Weight Loss"
+  description="Work out the daily calorie target for weight loss based on your TDEE and a chosen pace. Free calorie deficit calculator with a built-in safety floor, metric & imperial."
+  heading="Calorie Deficit Calculator"
+  intro="Find the daily calorie target needed to lose weight at a pace you choose, based on your estimated total daily energy expenditure."
+  slug="calorie-deficit"
+  faqs={faqs}
+>
+  <div slot="tool" class="tool">
+    <div class="unit-toggle" role="group" aria-label="Measurement system">
+      <button type="button" data-unit="metric" aria-pressed="true">Metric</button>
+      <button type="button" data-unit="imperial" aria-pressed="false">Imperial</button>
+    </div>
+
+    <form novalidate data-calc>
+      <BodyFields />
+      <div class="field-row">
+        <div class="field">
+          <label for="activity">Activity level</label>
+          <select id="activity" name="activity">
+            <option value="sedentary">Sedentary</option>
+            <option value="light">Lightly active</option>
+            <option value="moderate" selected>Moderately active</option>
+            <option value="active">Very active</option>
+            <option value="athlete">Extra active</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rate">Weight-loss pace</label>
+          <select id="rate" name="rate">
+            <option value="0.25">Gentle — 0.25 kg/week</option>
+            <option value="0.5" selected>Standard — 0.5 kg/week</option>
+            <option value="0.75">Faster — 0.75 kg/week</option>
+            <option value="1">Aggressive — 1 kg/week</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Calculate target</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" data-result hidden aria-live="polite">
+      <p class="result-label">Daily calorie target</p>
+      <p class="result-value" data-value>—</p>
+      <ul data-detail></ul>
+      <p class="warn" data-warn hidden role="alert"></p>
+    </div>
+  </div>
+
+  <Fragment slot="formula">
+    <p>The calculator first estimates your maintenance calories (TDEE), then subtracts a daily deficit based on your chosen pace:</p>
+    <p class="formula">Daily deficit = (target kg per week × 7,700) ÷ 7</p>
+    <p class="formula">Calorie target = TDEE − daily deficit</p>
+    <p>Because roughly 7,700 calories equal one kilogram of fat, aiming for a 0.5 kg weekly loss means a deficit of about 550 calories per day. A safety note appears if the target falls below common minimum intakes.</p>
+  </Fragment>
+
+  <Fragment slot="example">
+    <p><strong>Person:</strong> someone with a TDEE of 2,400 kcal aiming to lose 0.5 kg per week.</p>
+    <p class="formula">Daily deficit = (0.5 × 7,700) ÷ 7 ≈ 550 kcal</p>
+    <p class="formula">Target = 2,400 − 550 = 1,850 kcal/day</p>
+    <p>Eating around <strong>1,850 calories</strong> per day should produce roughly 0.5 kg of loss per week.</p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { setupCalorieDeficit } from "@/scripts/calorie-deficit"
+  setupCalorieDeficit()
+</script>

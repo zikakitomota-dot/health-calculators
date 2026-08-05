@@ -1,0 +1,98 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro"
+---
+
+<BaseLayout
+  title="Contact — Health Calculators"
+  description="Get in touch with Health Calculators. Send feedback, report an issue, or suggest a new health or fitness calculator."
+>
+  <article class="content">
+    <p class="eyebrow">Contact</p>
+    <h1>Contact us</h1>
+    <p class="lead">
+      Questions, corrections, or ideas for a new calculator? Send us a message
+      and we will do our best to reply.
+    </p>
+
+    <div class="card-note">
+      <p>
+        <strong>Email:</strong>
+        <a href="mailto:hello@health-calculators.example">hello@health-calculators.example</a>
+      </p>
+      <p>We aim to respond to genuine enquiries within a few working days.</p>
+    </div>
+
+    <form class="contact-form" name="contact" novalidate data-contact>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" />
+        <span class="error" data-error-for="name" role="alert"></span>
+      </div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" required maxlength="150" />
+        <span class="error" data-error-for="email" role="alert"></span>
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required maxlength="2000"></textarea>
+        <span class="error" data-error-for="message" role="alert"></span>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </div>
+      <p class="form-status" data-status hidden role="status"></p>
+    </form>
+
+    <p class="disclaimer-note">
+      This form is a demonstration and does not transmit data to a server. Please
+      use the email address above to reach us directly.
+    </p>
+  </article>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact]")
+  if (form) {
+    const status = form.querySelector<HTMLElement>("[data-status]")!
+    const setErr = (id: string, msg: string) => {
+      const el = form.querySelector<HTMLElement>(`[data-error-for="${id}"]`)
+      const input = form.querySelector<HTMLInputElement>(`#${id}`)
+      if (el) el.textContent = msg
+      if (input) {
+        if (msg) input.setAttribute("aria-invalid", "true")
+        else input.removeAttribute("aria-invalid")
+      }
+    }
+    form.addEventListener("submit", (e) => {
+      e.preventDefault()
+      let ok = true
+      const name = (form.querySelector("#name") as HTMLInputElement).value.trim()
+      const email = (form.querySelector("#email") as HTMLInputElement).value.trim()
+      const message = (form.querySelector("#message") as HTMLTextAreaElement).value.trim()
+      setErr("name", "")
+      setErr("email", "")
+      setErr("message", "")
+      if (!name) {
+        setErr("name", "Please enter your name.")
+        ok = false
+      }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        setErr("email", "Please enter a valid email address.")
+        ok = false
+      }
+      if (message.length < 10) {
+        setErr("message", "Please enter a message of at least 10 characters.")
+        ok = false
+      }
+      if (!ok) {
+        status.hidden = true
+        return
+      }
+      form.reset()
+      status.hidden = false
+      status.textContent =
+        "Thanks! This demo form does not send data — please email us directly using the address above."
+    })
+  }
+</script>

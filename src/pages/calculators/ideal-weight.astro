@@ -1,0 +1,102 @@
+---
+import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
+
+const faqs = [
+  {
+    q: "Is there one true ideal weight?",
+    a: "No. Ideal body weight formulas give a rough reference range, not an exact target. Healthy weight depends on muscle mass, frame size, age, and overall health, so treat the result as a guideline.",
+  },
+  {
+    q: "Which formulas does this use?",
+    a: "It shows results from three well-known equations — Robinson (1983), Devine (1974), and Miller (1983) — which are all based on height and sex. The range between them gives a sensible reference band.",
+  },
+  {
+    q: "Why does it only ask for height and sex?",
+    a: "These classic formulas were designed to estimate a reference weight from height alone, with a small adjustment for sex. They do not account for body composition, which is why they are only a starting point.",
+  },
+  {
+    q: "Should I aim for the exact number?",
+    a: "Not necessarily. A healthy weight is a range, not a single figure. Use this alongside BMI and, ideally, guidance from a healthcare professional.",
+  },
+]
+---
+
+<CalculatorLayout
+  title="Ideal Weight Calculator — Healthy Weight Range by Height"
+  description="Estimate a healthy target weight range from your height and sex using the Robinson, Devine, and Miller formulas. Free ideal body weight calculator, metric & imperial."
+  heading="Ideal Weight Calculator"
+  intro="Estimate a healthy reference weight range based on your height and sex, using three established formulas."
+  slug="ideal-weight"
+  faqs={faqs}
+>
+  <div slot="tool" class="tool">
+    <div class="unit-toggle" role="group" aria-label="Measurement system">
+      <button type="button" data-unit="metric" aria-pressed="true">Metric</button>
+      <button type="button" data-unit="imperial" aria-pressed="false">Imperial</button>
+    </div>
+
+    <form novalidate data-calc>
+      <div class="field">
+        <label for="sex">Sex</label>
+        <select id="sex" name="sex">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div data-metric>
+        <div class="field">
+          <label for="height-cm">Height (cm)</label>
+          <input id="height-cm" name="heightCm" type="number" inputmode="decimal" min="120" max="250" step="0.1" />
+          <span class="error" data-error-for="height-cm" role="alert"></span>
+        </div>
+      </div>
+
+      <div data-imperial hidden>
+        <div class="field-row">
+          <div class="field">
+            <label for="height-ft">Height (ft)</label>
+            <input id="height-ft" name="heightFt" type="number" inputmode="numeric" min="4" max="8" step="1" />
+            <span class="error" data-error-for="height-ft" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="height-in">Height (in)</label>
+            <input id="height-in" name="heightIn" type="number" inputmode="decimal" min="0" max="11.9" step="0.1" />
+            <span class="error" data-error-for="height-in" role="alert"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Calculate ideal weight</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" data-result hidden aria-live="polite">
+      <p class="result-label">Estimated healthy weight range</p>
+      <p class="result-value" data-value>—</p>
+      <ul data-list></ul>
+    </div>
+  </div>
+
+  <Fragment slot="formula">
+    <p>Each formula starts from a base weight for a height of 5 feet (152.4 cm) and adds a fixed amount for every inch above that:</p>
+    <p class="formula">Robinson: 52 kg (men) / 49 kg (women) + 1.9 / 1.7 kg per inch over 5 ft</p>
+    <p class="formula">Devine: 50 kg (men) / 45.5 kg (women) + 2.3 kg per inch over 5 ft</p>
+    <p class="formula">Miller: 56.2 kg (men) / 53.1 kg (women) + 1.41 / 1.36 kg per inch over 5 ft</p>
+    <p>The calculator reports each result and uses the lowest and highest as a reference range.</p>
+  </Fragment>
+
+  <Fragment slot="example">
+    <p><strong>Person:</strong> a man 178 cm tall (about 70 inches, so 10 inches over 5 ft).</p>
+    <p class="formula">Devine = 50 + 2.3 × 10 = 73.0 kg</p>
+    <p class="formula">Robinson = 52 + 1.9 × 10 = 71.0 kg</p>
+    <p>His reference range is roughly <strong>71–75 kg</strong> depending on the formula used.</p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { setupIdealWeight } from "@/scripts/ideal-weight"
+  setupIdealWeight()
+</script>

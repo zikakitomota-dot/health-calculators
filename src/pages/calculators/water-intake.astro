@@ -1,0 +1,93 @@
+---
+import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
+
+const faqs = [
+  {
+    q: "How much water should I drink a day?",
+    a: "A common guideline is around 30–35 ml per kilogram of body weight, with more added for exercise and hot weather. This calculator uses that approach, but individual needs vary a lot.",
+  },
+  {
+    q: "Does other fluid and food count?",
+    a: "Yes. Water in tea, coffee, milk, and foods such as fruit and soup all contribute to your daily fluid intake, so you rarely need to drink the full amount as plain water.",
+  },
+  {
+    q: "Can I drink too much water?",
+    a: "In rare cases, drinking excessive amounts very quickly can dilute blood sodium (hyponatremia), which is dangerous. For most people this is not a concern, but use common sense and listen to your thirst.",
+  },
+  {
+    q: "Is this a medical recommendation?",
+    a: "No. This is a general estimate for healthy adults. If you have kidney, heart, or other conditions that affect fluid balance, follow the advice of your healthcare provider.",
+  },
+]
+---
+
+<CalculatorLayout
+  title="Water Intake Calculator — Daily Hydration Goal"
+  description="Estimate how much water to drink each day based on your body weight and exercise. Free daily hydration calculator in litres and cups, metric & imperial."
+  heading="Water Intake Calculator"
+  intro="Estimate a daily water target based on your body weight and how much you exercise."
+  slug="water-intake"
+  faqs={faqs}
+>
+  <div slot="tool" class="tool">
+    <div class="unit-toggle" role="group" aria-label="Measurement system">
+      <button type="button" data-unit="metric" aria-pressed="true">Metric</button>
+      <button type="button" data-unit="imperial" aria-pressed="false">Imperial</button>
+    </div>
+
+    <form novalidate data-calc>
+      <div data-metric>
+        <div class="field">
+          <label for="weight-kg">Weight (kg)</label>
+          <input id="weight-kg" name="weightKg" type="number" inputmode="decimal" min="10" max="500" step="0.1" />
+          <span class="error" data-error-for="weight-kg" role="alert"></span>
+        </div>
+      </div>
+
+      <div data-imperial hidden>
+        <div class="field">
+          <label for="weight-lb">Weight (lb)</label>
+          <input id="weight-lb" name="weightLb" type="number" inputmode="decimal" min="20" max="1100" step="0.1" />
+          <span class="error" data-error-for="weight-lb" role="alert"></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="exercise">Daily exercise (minutes)</label>
+        <input id="exercise" name="exercise" type="number" inputmode="numeric" min="0" max="600" step="5" value="0" />
+        <span class="error" data-error-for="exercise" role="alert"></span>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Calculate water intake</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" data-result hidden aria-live="polite">
+      <p class="result-label">Suggested daily water intake</p>
+      <p class="result-value" data-value>—</p>
+      <ul data-detail></ul>
+    </div>
+  </div>
+
+  <Fragment slot="formula">
+    <p>The estimate combines a baseline from body weight with an allowance for exercise:</p>
+    <p class="formula">Baseline = weight (kg) × 35 ml</p>
+    <p class="formula">Exercise = 350 ml for every 30 minutes of activity</p>
+    <p class="formula">Total = baseline + exercise</p>
+    <p>The result is shown in litres and in 240 ml cups. Remember that fluids from food and other drinks also count toward this total.</p>
+  </Fragment>
+
+  <Fragment slot="example">
+    <p><strong>Person:</strong> 70 kg, with 30 minutes of exercise.</p>
+    <p class="formula">Baseline = 70 × 35 = 2,450 ml</p>
+    <p class="formula">Exercise = 350 ml → Total = 2,800 ml</p>
+    <p>That is about <strong>2.8 litres</strong>, or roughly 12 cups, across the day from all sources.</p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { setupWaterIntake } from "@/scripts/water-intake"
+  setupWaterIntake()
+</script>

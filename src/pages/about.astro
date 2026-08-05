@@ -1,0 +1,60 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import { calculators } from "@/data/calculators"
+---
+
+<BaseLayout
+  title="About — Health Calculators"
+  description="Learn about Health Calculators: a free collection of privacy-friendly health and fitness calculators that run entirely in your browser for educational use."
+>
+  <article class="content">
+    <p class="eyebrow">About us</p>
+    <h1>About Health Calculators</h1>
+    <p class="lead">
+      Health Calculators is a free collection of simple, transparent tools for
+      estimating everyday health and fitness numbers — from Body Mass Index to
+      daily calorie needs.
+    </p>
+
+    <h2>What we do</h2>
+    <p>
+      We build clear, fast calculators that show their working. Every tool on
+      this site explains the formula it uses, walks through a worked example,
+      and answers common questions, so you can understand the result rather
+      than just read a number. We currently offer {calculators.length} calculators
+      covering body measurements, energy expenditure, nutrition, and activity.
+    </p>
+
+    <h2>How our tools work</h2>
+    <p>
+      All calculations run entirely in your browser using well-established,
+      publicly documented formulas such as the Mifflin-St Jeor equation for
+      metabolic rate and standard MET values for activity. Nothing you type is
+      sent to a server — the maths happens on your own device, instantly.
+    </p>
+
+    <h2>Our approach to accuracy</h2>
+    <p>
+      Health formulas are estimates, not measurements. Predictive equations are
+      built from population averages and cannot account for your individual body
+      composition, genetics, or medical history. We are deliberately upfront
+      about these limits on every page, and we encourage you to treat results as
+      a general guide rather than a precise figure.
+    </p>
+
+    <h2>Important note</h2>
+    <p>
+      Health Calculators does not provide medical advice. Our tools are for
+      general education and information only. For any decision that affects your
+      health, please consult a qualified healthcare professional. See our
+      <a href="/disclaimer">health disclaimer</a> for full details.
+    </p>
+
+    <h2>Get in touch</h2>
+    <p>
+      Have a suggestion for a new calculator or spotted something that looks
+      wrong? We would love to hear from you on our
+      <a href="/contact">contact page</a>.
+    </p>
+  </article>
+</BaseLayout>
