@@ -15,7 +15,7 @@ const jsonLd = {
     "@type": "ListItem",
     position: i + 1,
     name: c.name,
-    url: `https://health-calculators.pages.dev/calculators/${c.slug}`,
+    url: `https://health.zaleastudio.com/calculators/${c.slug}/`,
   })),
 }
 ---
@@ -30,7 +30,7 @@ const jsonLd = {
       shared. Metric and imperial units supported throughout.
     </p>
     <div class="actions">
-      <a class="btn btn-primary" href="/calculators/bmi">Try the BMI calculator</a>
+      <a class="btn btn-primary" href="/calculators/bmi/">Try the BMI calculator</a>
       <a class="btn btn-ghost" href="#calculators">Browse all calculators</a>
     </div>
   </section>
@@ -40,7 +40,7 @@ const jsonLd = {
     <div class="card-grid">
       {
         calculators.map((c) => (
-          <a class="calc-card" href={`/calculators/${c.slug}`}>
+          <a class="calc-card" href={`/calculators/${c.slug}/`}>
             <span class="tag">{c.category}</span>
             <h3>{c.name}</h3>
             <p>{c.description}</p>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro"
 import AdSlot from "@/components/AdSlot.astro"
-import { relatedCalculators } from "@/data/calculators"
+import { getCalculator, relatedCalculators } from "@/data/calculators"
 
 interface FaqItem {
   q: string
@@ -15,13 +15,30 @@ interface Props {
   intro: string
   slug: string
   faqs: FaqItem[]
+  canonical?: string
+  breadcrumbLabel?: string
+  relatedSlugs?: string[]
 }
 
-const { title, description, heading, intro, slug, faqs } = Astro.props
-const related = relatedCalculators(slug, 4)
+const {
+  title,
+  description,
+  heading,
+  intro,
+  slug,
+  faqs,
+  canonical,
+  breadcrumbLabel,
+  relatedSlugs,
+} = Astro.props
+const requestedRelated = relatedSlugs
+  ?.map((relatedSlug) => getCalculator(relatedSlug))
+  .filter((calculator) => calculator !== undefined)
+const related = requestedRelated?.length
+  ? requestedRelated
+  : relatedCalculators(slug, 4)
 
-const jsonLd = {
-  "@context": "https://schema.org",
+const faqJsonLd = {
   "@type": "FAQPage",
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
@@ -29,9 +46,46 @@ const jsonLd = {
     acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 }
+
+const jsonLd = breadcrumbLabel
+  ? {
+      "@context": "https://schema.org",
+      "@graph": [
+        faqJsonLd,
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Health Calculators",
+              item: "https://health.zaleastudio.com/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: breadcrumbLabel,
+              item: canonical,
+            },
+          ],
+        },
+      ],
+    }
+  : { "@context": "https://schema.org", ...faqJsonLd }
 ---
 
-<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  {
+    breadcrumbLabel && (
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Health Calculators</a></li>
+          <li aria-current="page">{breadcrumbLabel}</li>
+        </ol>
+      </nav>
+    )
+  }
+
   <div class="page-intro">
     <p class="eyebrow">Health Calculator</p>
     <h1>{heading}</h1>
@@ -43,21 +97,32 @@ const jsonLd = {
       <!-- Calculator tool goes here -->
       <slot name="tool" />
 
-      <!-- Formula explanation -->
-      <section class="prose" aria-labelledby="formula-heading">
-        <h2 id="formula-heading">How it works</h2>
-        <slot name="formula" />
-      </section>
+      {
+        Astro.slots.has("content") ? (
+          <>
+            <slot name="content" />
+            <AdSlot variant="horizontal" label="Advertisement space (responsive)" />
+          </>
+        ) : (
+          <>
+            <!-- Formula explanation -->
+            <section class="prose" aria-labelledby="formula-heading">
+              <h2 id="formula-heading">How it works</h2>
+              <slot name="formula" />
+            </section>
 
-      <AdSlot variant="horizontal" label="Advertisement space (responsive)" />
+            <AdSlot variant="horizontal" label="Advertisement space (responsive)" />
 
-      <!-- Worked example -->
-      <section class="prose" aria-labelledby="example-heading">
-        <h2 id="example-heading">Example calculation</h2>
-        <div class="example-box">
-          <slot name="example" />
-        </div>
-      </section>
+            <!-- Worked example -->
+            <section class="prose" aria-labelledby="example-heading">
+              <h2 id="example-heading">Example calculation</h2>
+              <div class="example-box">
+                <slot name="example" />
+              </div>
+            </section>
+          </>
+        )
+      }
 
       <!-- FAQ -->
       <section class="faq" aria-labelledby="faq-heading">
@@ -79,7 +144,7 @@ const jsonLd = {
           {
             related.map((c) => (
               <li>
-                <a href={`/calculators/${c.slug}`}>{c.name}</a>
+                <a href={`/calculators/${c.slug}/`}>{c.name}</a>
               </li>
             ))
           }

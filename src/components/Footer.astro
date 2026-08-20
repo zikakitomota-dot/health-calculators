@@ -19,7 +19,7 @@ const year = new Date().getFullYear()
           {
             calculators.map((c) => (
               <li>
-                <a href={`/calculators/${c.slug}`}>{c.name}</a>
+                <a href={`/calculators/${c.slug}/`}>{c.name}</a>
               </li>
             ))
           }
@@ -28,10 +28,10 @@ const year = new Date().getFullYear()
       <nav aria-label="Company">
         <h4>Site</h4>
         <ul>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/disclaimer">Health Disclaimer</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/disclaimer/">Health Disclaimer</a></li>
         </ul>
       </nav>
     </div>

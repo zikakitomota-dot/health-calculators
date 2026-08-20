@@ -3,31 +3,42 @@ import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
 
 const faqs = [
   {
-    q: "What is a healthy BMI range?",
-    a: "For most adults, a BMI between 18.5 and 24.9 is considered the healthy range. Below 18.5 is classed as underweight and 25 or above as overweight. BMI is a general screening tool, not a diagnosis.",
+    q: "Can I calculate BMI using kg and cm?",
+    a: "Yes. Choose Metric, enter your weight in kilograms and height in centimetres, and the calculator will convert height to metres before calculating your BMI.",
   },
   {
-    q: "Does BMI work for athletes?",
-    a: "Not always. BMI does not distinguish muscle from fat, so very muscular people may show a high BMI while having low body fat. Use it as one data point alongside other measures.",
+    q: "Can I calculate BMI using pounds and feet?",
+    a: "Yes. Choose Imperial, then enter your weight in pounds and your height in feet and inches. The result is equivalent to using the same measurements in metric units.",
   },
   {
-    q: "Is BMI accurate for children?",
-    a: "This calculator is intended for adults. Children and teenagers use age- and sex-specific BMI percentile charts instead of fixed categories.",
+    q: "Is BMI calculated differently for men and women?",
+    a: "No. The adult BMI formula is the same for men and women. However, BMI does not account for individual differences in body composition, age or muscle mass.",
   },
   {
-    q: "Should I use BMI to make health decisions?",
-    a: "BMI is a rough screening estimate only. It is not a substitute for advice from a qualified healthcare professional who can consider your full situation.",
+    q: "What is considered a healthy BMI?",
+    a: "For most adults, a BMI from 18.5 to 24.9 is commonly classified as the healthy-weight range. It is a screening range rather than a diagnosis.",
+  },
+  {
+    q: "Does BMI measure body fat?",
+    a: "No. BMI uses only height and weight, so it cannot directly measure body fat or distinguish fat from muscle. It should be considered alongside other health information.",
+  },
+  {
+    q: "Can children use the same BMI categories as adults?",
+    a: "No. BMI for children and teenagers is interpreted using age- and sex-specific percentile charts, not the fixed adult categories shown here. A qualified healthcare professional can help interpret a child's growth measurements.",
   },
 ]
 ---
 
 <CalculatorLayout
-  title="BMI Calculator — Body Mass Index (Metric & Imperial)"
-  description="Calculate your Body Mass Index (BMI) from height and weight in metric or imperial units. Free, private, and instant — with an explanation of the BMI formula."
+  title="BMI Calculator – Metric & Imperial (kg, cm, lb, ft) | Zalea Studio"
+  description="Calculate your BMI using metric units (kg and cm) or imperial units (pounds, feet and inches). Get an instant result with adult BMI categories."
   heading="BMI Calculator"
-  intro="Enter your height and weight to estimate your Body Mass Index and see which standard weight category it falls into."
+  intro="Calculate your BMI with metric measurements in kilograms and centimetres or imperial measurements in pounds, feet and inches. Choose your preferred unit system below for an instant adult BMI estimate."
   slug="bmi"
   faqs={faqs}
+  canonical="https://health.zaleastudio.com/calculators/bmi/"
+  breadcrumbLabel="BMI Calculator"
+  relatedSlugs={["ideal-weight", "bmr", "tdee", "calorie-deficit"]}
 >
   <div slot="tool" class="tool">
     <div class="unit-toggle" role="group" aria-label="Measurement system">
@@ -90,30 +101,70 @@ const faqs = [
     </div>
   </div>
 
-  <Fragment slot="formula">
-    <p>Body Mass Index compares your weight to your height using this formula:</p>
-    <p class="formula">BMI = weight (kg) ÷ [height (m)]²</p>
-    <p>
-      For imperial units, the equivalent formula multiplies by a conversion
-      factor:
-    </p>
-    <p class="formula">BMI = 703 × weight (lb) ÷ [height (in)]²</p>
-    <p>
-      The result is grouped into standard categories set by the World Health
-      Organization. Because BMI uses only height and weight, it cannot tell the
-      difference between muscle and fat, so treat it as a general screening
-      estimate.
-    </p>
-  </Fragment>
+  <Fragment slot="content">
+    <section class="prose" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the BMI Calculator</h2>
+      <ol>
+        <li>Choose <strong>Metric</strong> for kilograms and centimetres, or <strong>Imperial</strong> for pounds, feet and inches.</li>
+        <li>Enter your height and weight in the labelled fields.</li>
+        <li>Select <strong>Calculate BMI</strong> to see your result and adult BMI category.</li>
+      </ol>
+    </section>
 
-  <Fragment slot="example">
-    <p><strong>Person:</strong> 170 cm tall, weighing 68 kg.</p>
-    <p>Convert height to metres: 170 cm = 1.70 m.</p>
-    <p class="formula">BMI = 68 ÷ (1.70 × 1.70) = 68 ÷ 2.89 = 23.5</p>
-    <p>
-      A BMI of <strong>23.5</strong> falls within the healthy weight range of
-      18.5 – 24.9.
-    </p>
+    <section class="prose" aria-labelledby="metric-bmi-heading">
+      <h2 id="metric-bmi-heading">BMI Calculator Using kg and cm</h2>
+      <p>A metric BMI calculation uses weight in kilograms and height in metres. If your height is in centimetres, divide it by 100 before applying the formula.</p>
+      <p class="formula">BMI = weight in kilograms ÷ height in metres²</p>
+      <div class="example-box">
+        <p><strong>Example:</strong> A person who weighs 68 kg and is 170 cm tall has a height of 1.70 m.</p>
+        <p class="formula">68 ÷ (1.70 × 1.70) = 23.5</p>
+        <p>A BMI of 23.5 is within the common healthy-weight range for adults.</p>
+      </div>
+    </section>
+
+    <section class="prose" aria-labelledby="imperial-bmi-heading">
+      <h2 id="imperial-bmi-heading">BMI Calculator Using Pounds, Feet and Inches</h2>
+      <p>The Imperial option accepts weight in pounds and height in feet and inches. Convert the full height to inches, then use the imperial BMI formula.</p>
+      <p class="formula">BMI = 703 × weight in pounds ÷ height in inches²</p>
+      <div class="example-box">
+        <p><strong>Example:</strong> A person who weighs 140 lb and is 5 ft 6 in tall has a total height of 66 inches.</p>
+        <p class="formula">703 × 140 ÷ (66 × 66) = 22.6</p>
+        <p>The equivalent metric measurements produce the same BMI result.</p>
+      </div>
+    </section>
+
+    <section class="prose" aria-labelledby="bmi-categories-heading">
+      <h2 id="bmi-categories-heading">BMI Categories</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Adult BMI categories table">
+        <table class="bmi-table">
+          <caption>Common BMI categories for adults</caption>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">BMI range</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Underweight</th><td>Below 18.5</td></tr>
+            <tr><th scope="row">Healthy weight</th><td>18.5–24.9</td></tr>
+            <tr><th scope="row">Overweight</th><td>25.0–29.9</td></tr>
+            <tr><th scope="row">Obesity</th><td>30.0 and above</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="disclaimer-note"><strong>BMI is a screening tool and does not diagnose health conditions.</strong> Individual health assessment should consider other factors in addition to BMI.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="calculation-heading">
+      <h2 id="calculation-heading">How Is BMI Calculated?</h2>
+      <p>BMI compares body weight with height squared. Squaring height helps adjust the weight measurement for differences in body size, producing one number that can be compared with standard adult screening ranges. Because the formula uses only height and weight, it does not describe body composition.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="units-heading">
+      <h2 id="units-heading">Metric vs Imperial BMI</h2>
+      <p>A metric BMI calculator uses kilograms and metres or centimetres, while an imperial BMI calculator uses pounds and total inches. Both systems produce the same BMI when equivalent measurements are entered; only the units and conversion step differ.</p>
+      <p>For additional context, compare your result with an <a href="/calculators/ideal-weight/">Ideal Weight Calculator</a>, calculate resting energy needs with the <a href="/calculators/bmr/">BMR Calculator</a>, estimate daily energy needs with the <a href="/calculators/tdee/">TDEE Calculator</a>, or explore a goal-based estimate with the <a href="/calculators/calorie-deficit/">Calorie Deficit Calculator</a>.</p>
+    </section>
   </Fragment>
 </CalculatorLayout>
 
