@@ -7,10 +7,28 @@ import {
 } from "@/scripts/dom"
 
 function categorize(bmi: number) {
-  if (bmi < 18.5) return "Underweight"
-  if (bmi < 25) return "Healthy weight"
-  if (bmi < 30) return "Overweight"
-  return "Obese"
+  if (bmi < 18.5) {
+    return {
+      label: "Underweight range",
+      interpretation: "This result falls below the common healthy-weight BMI range for adults.",
+    }
+  }
+  if (bmi < 25) {
+    return {
+      label: "Healthy weight range",
+      interpretation: "This result falls within the common healthy-weight BMI range for adults.",
+    }
+  }
+  if (bmi < 30) {
+    return {
+      label: "Overweight range",
+      interpretation: "This result falls within the common overweight BMI range for adults.",
+    }
+  }
+  return {
+    label: "Obesity range",
+    interpretation: "This result falls within the common obesity BMI range for adults.",
+  }
 }
 
 export function setupBmi() {
@@ -20,6 +38,9 @@ export function setupBmi() {
   const result = tool.querySelector<HTMLElement>("[data-result]")!
   const valueEl = result.querySelector<HTMLElement>("[data-value]")!
   const categoryEl = result.querySelector<HTMLElement>("[data-category]")!
+  const interpretationEl = result.querySelector<HTMLElement>(
+    "[data-interpretation]",
+  )!
 
   setupUnitToggle(tool, () => {
     clearErrors(form)
@@ -70,8 +91,10 @@ export function setupBmi() {
     }
 
     const bmi = weightKg / (heightM * heightM)
+    const category = categorize(bmi)
     valueEl.textContent = String(round(bmi, 1))
-    categoryEl.textContent = categorize(bmi)
+    categoryEl.textContent = category.label
+    interpretationEl.textContent = category.interpretation
     result.hidden = false
     result.scrollIntoView({ behavior: "smooth", block: "nearest" })
   })

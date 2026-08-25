@@ -11,7 +11,9 @@ export function setupCalorieDeficit() {
   const form = tool.querySelector<HTMLFormElement>("[data-calc]")!
   const result = tool.querySelector<HTMLElement>("[data-result]")!
   const valueEl = result.querySelector<HTMLElement>("[data-value]")!
-  const detailEl = result.querySelector<HTMLElement>("[data-detail]")!
+  const maintenanceEl = result.querySelector<HTMLElement>("[data-maintenance]")!
+  const deficitEl = result.querySelector<HTMLElement>("[data-deficit]")!
+  const rateEl = result.querySelector<HTMLElement>("[data-rate]")!
   const warnEl = result.querySelector<HTMLElement>("[data-warn]")!
 
   setupUnitToggle(tool, () => {
@@ -39,10 +41,9 @@ export function setupCalorieDeficit() {
     const target = tdee - dailyDeficit
 
     valueEl.textContent = `${Math.round(target)} kcal/day`
-    detailEl.innerHTML = `
-      <li>Maintenance (TDEE): <strong>${Math.round(tdee)}</strong> kcal</li>
-      <li>Daily deficit: <strong>${Math.round(dailyDeficit)}</strong> kcal</li>
-      <li>Projected loss: <strong>${round(rateKg, 2)} kg/week</strong></li>`
+    maintenanceEl.textContent = `${Math.round(tdee)} kcal/day`
+    deficitEl.textContent = `${Math.round(dailyDeficit)} kcal/day`
+    rateEl.textContent = `${round(rateKg, 2)} kg/week`
 
     // Safety floor: warn if the target drops below common minimums.
     const floor = body.sex === "male" ? 1500 : 1200

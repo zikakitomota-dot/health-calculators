@@ -89,15 +89,17 @@ const faqs = [
     </form>
 
     <div class="result" data-result hidden aria-live="polite">
-      <p class="result-label">Your estimated BMI</p>
+      <p class="result-label">Your BMI</p>
       <p class="result-value" data-value>—</p>
       <p><span class="badge" data-category></span></p>
-      <ul>
-        <li>Underweight: below 18.5</li>
-        <li>Healthy weight: 18.5 – 24.9</li>
-        <li>Overweight: 25 – 29.9</li>
-        <li>Obese: 30 and above</li>
-      </ul>
+      <p class="result-summary" data-interpretation></p>
+      <p class="result-note">BMI is a screening measure based on height and weight. It does not directly measure body fat or diagnose a health condition.</p>
+      <nav class="result-next-steps" aria-label="Next steps after your BMI result">
+        <a href="/calculators/ideal-weight/">Check an ideal weight range</a>
+        <a href="/calculators/bmr/">Calculate BMR</a>
+        <a href="/calculators/tdee/">Calculate TDEE</a>
+        <a href="/calculators/calorie-deficit/">Plan a calorie deficit</a>
+      </nav>
     </div>
   </div>
 

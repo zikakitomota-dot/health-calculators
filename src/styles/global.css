@@ -435,6 +435,56 @@ main {
   font-size: 0.85rem;
   color: var(--primary-dark);
 }
+.result .result-summary {
+  margin-top: 0.85rem;
+  font-weight: 600;
+}
+.result .result-note,
+.result .result-caution {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.result .result-caution {
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+}
+.result-next-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+.result-next-steps a {
+  font-weight: 700;
+}
+.result-next-steps p,
+.result-next-step {
+  margin: 0;
+}
+.result-next-step {
+  margin-top: 1rem;
+}
+.result-breakdown {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  margin: 1rem 0 0;
+}
+.result-breakdown div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+}
+.result-breakdown dt {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.result-breakdown dd {
+  font-weight: 700;
+  margin: 0.15rem 0 0;
+}
 
 /* Info sections */
 .prose {

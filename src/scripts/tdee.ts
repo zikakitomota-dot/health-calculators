@@ -16,7 +16,7 @@ export function setupTdee() {
   const result = tool.querySelector<HTMLElement>("[data-result]")!
   const valueEl = result.querySelector<HTMLElement>("[data-value]")!
   const bmrEl = result.querySelector<HTMLElement>("[data-bmr]")!
-  const goalsEl = result.querySelector<HTMLElement>("[data-goals]")!
+  const activityEl = result.querySelector<HTMLElement>("[data-activity]")!
 
   setupUnitToggle(tool, () => {
     clearErrors(form)
@@ -38,11 +38,7 @@ export function setupTdee() {
 
     valueEl.textContent = `${Math.round(tdee)} kcal/day`
     bmrEl.textContent = `${Math.round(bmr)} kcal/day`
-    goalsEl.innerHTML = `
-      <li>Mild weight loss (−0.25 kg/wk): <strong>${Math.round(tdee - 275)}</strong> kcal</li>
-      <li>Weight loss (−0.5 kg/wk): <strong>${Math.round(tdee - 550)}</strong> kcal</li>
-      <li>Maintain weight: <strong>${Math.round(tdee)}</strong> kcal</li>
-      <li>Weight gain (+0.5 kg/wk): <strong>${Math.round(tdee + 550)}</strong> kcal</li>`
+    activityEl.textContent = ACTIVITY[activity].label
     result.hidden = false
     result.scrollIntoView({ behavior: "smooth", block: "nearest" })
   })

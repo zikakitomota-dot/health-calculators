@@ -47,6 +47,7 @@ const faqs = [
           <option value="active">Very active — 6–7 days/week</option>
           <option value="athlete">Extra active — hard training / physical job</option>
         </select>
+        <span class="hint">Choose the option that best reflects a typical week. Your selection changes the activity multiplier used in the estimate.</span>
       </div>
       <div class="actions">
         <button type="submit" class="btn btn-primary">Calculate TDEE</button>
@@ -55,11 +56,16 @@ const faqs = [
     </form>
 
     <div class="result" data-result hidden aria-live="polite">
-      <p class="result-label">Your estimated daily calories (TDEE)</p>
+      <p class="result-label">Estimated TDEE</p>
       <p class="result-value" data-value>—</p>
-      <p>Resting metabolism (BMR): <strong data-bmr>—</strong></p>
-      <p class="result-label" style="margin-top:1rem;">Calorie targets by goal</p>
-      <ul data-goals></ul>
+      <p class="result-summary">This is your estimated maintenance calorie intake — approximately the energy required to maintain your current weight at the selected activity level.</p>
+      <p class="result-note">Based on <strong data-activity>—</strong>. Estimated resting energy (BMR): <strong data-bmr>—</strong>.</p>
+      <div class="result-next-steps" aria-label="Next steps after your TDEE result">
+        <p><strong>Maintain weight:</strong> use this estimate as a starting reference.</p>
+        <p><strong>Weight-loss planning:</strong> use the <a href="/calculators/calorie-deficit/">Calorie Deficit Calculator</a>.</p>
+        <p><strong>Resting energy:</strong> learn more with the <a href="/calculators/bmr/">BMR Calculator</a>.</p>
+      </div>
+      <p class="result-caution">TDEE is an estimate. Actual energy needs vary between individuals and from day to day.</p>
     </div>
   </div>
 

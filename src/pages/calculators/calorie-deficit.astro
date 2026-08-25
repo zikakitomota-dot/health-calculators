@@ -66,10 +66,25 @@ const faqs = [
     </form>
 
     <div class="result" data-result hidden aria-live="polite">
-      <p class="result-label">Daily calorie target</p>
+      <p class="result-label">Estimated daily calorie target</p>
       <p class="result-value" data-value>—</p>
-      <ul data-detail></ul>
+      <dl class="result-breakdown">
+        <div>
+          <dt>Maintenance estimate</dt>
+          <dd data-maintenance>—</dd>
+        </div>
+        <div>
+          <dt>Estimated deficit</dt>
+          <dd data-deficit>—</dd>
+        </div>
+        <div>
+          <dt>Selected pace</dt>
+          <dd data-rate>—</dd>
+        </div>
+      </dl>
+      <p class="result-caution">This result is an estimate. Actual energy needs vary, and projected weight-loss rates are not guarantees.</p>
       <p class="warn" data-warn hidden role="alert"></p>
+      <p class="result-next-step">Need a maintenance estimate without a weight-loss target? Use the <a href="/calculators/tdee/">TDEE Calculator</a>.</p>
     </div>
   </div>
 
