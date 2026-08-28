@@ -8,16 +8,32 @@ const faqs = [
     a: "A calorie deficit means eating fewer calories than your body burns in a day. Over time this prompts the body to use stored energy, which can lead to weight loss.",
   },
   {
-    q: "How big should my deficit be?",
-    a: "A moderate deficit of roughly 300–550 calories per day is commonly used and is generally more sustainable than an aggressive one. Very large deficits can be hard to maintain and may cost you muscle.",
+    q: "What should my calorie deficit be?",
+    a: "There is no single suitable deficit for everyone. It depends on your estimated maintenance calories, body size, activity, and individual circumstances. This calculator converts each pace option into an estimated daily deficit; a larger deficit is not automatically better or more appropriate.",
+  },
+  {
+    q: "What are maintenance calories?",
+    a: "Maintenance calories are the estimated calories needed to maintain your current weight. Here they are estimated from your BMR and selected activity level, producing an estimated Total Daily Energy Expenditure (TDEE).",
+  },
+  {
+    q: "How does TDEE relate to a calorie deficit?",
+    a: "TDEE is used as the maintenance estimate. The calculator subtracts the deficit associated with your selected pace from that estimate to produce a daily calorie target.",
   },
   {
     q: "Why 7,700 calories per kilogram?",
     a: "A kilogram of body fat stores roughly 7,700 calories, so a total weekly deficit of about 7,700 calories corresponds to roughly 1 kg of fat loss. This is an approximation, not an exact rule.",
   },
   {
+    q: "Does a calorie deficit guarantee weight loss?",
+    a: "No. The result is a planning estimate, not a guarantee. Real energy expenditure, food tracking, water weight, and normal scale fluctuations can all make actual results differ.",
+  },
+  {
+    q: "Is a larger calorie deficit always better?",
+    a: "No. Larger deficits can produce very low targets and may be harder to sustain. Choose a realistic pace and seek personalised advice from a qualified healthcare professional when needed.",
+  },
+  {
     q: "Is a calorie deficit safe for everyone?",
-    a: "Not always. Needs vary, and going too low can be harmful. This tool is educational only — talk to a doctor or registered dietitian before starting a weight-loss plan, especially if you have any health conditions.",
+    a: "Not always. Needs vary, and very low intake targets may not be appropriate. This tool is educational only — talk to a doctor or registered dietitian before starting a weight-loss plan, especially if you have health conditions or need personalised dietary advice.",
   },
 ]
 ---
@@ -26,9 +42,10 @@ const faqs = [
   title="Calorie Deficit Calculator — Daily Calories for Weight Loss"
   description="Calculate a daily calorie target for weight loss from your TDEE and chosen pace. Includes a safety floor and supports metric and imperial units."
   heading="Calorie Deficit Calculator"
-  intro="Find the daily calorie target needed to lose weight at a pace you choose, based on your estimated total daily energy expenditure."
+  intro="Estimate a daily calorie target by subtracting a selected deficit from your maintenance calories, based on your estimated total daily energy expenditure (TDEE)."
   slug="calorie-deficit"
   faqs={faqs}
+  relatedSlugs={["tdee", "bmr", "bmi", "ideal-weight"]}
 >
   <div slot="tool" class="tool">
     <div class="unit-toggle" role="group" aria-label="Measurement system">
@@ -48,6 +65,7 @@ const faqs = [
             <option value="active">Very active</option>
             <option value="athlete">Extra active</option>
           </select>
+          <span class="hint">Choose the level that most realistically reflects your usual week. Activity directly affects your maintenance estimate.</span>
         </div>
         <div class="field">
           <label for="rate">Weight-loss pace</label>
@@ -55,8 +73,9 @@ const faqs = [
             <option value="0.25">Gentle — 0.25 kg/week</option>
             <option value="0.5" selected>Standard — 0.5 kg/week</option>
             <option value="0.75">Faster — 0.75 kg/week</option>
-            <option value="1">Aggressive — 1 kg/week</option>
+            <option value="1">Largest option — 1 kg/week</option>
           </select>
+          <span class="hint">Each option is converted into a daily deficit estimate. Actual weight change can vary.</span>
         </div>
       </div>
       <div class="actions">
@@ -82,24 +101,27 @@ const faqs = [
           <dd data-rate>—</dd>
         </div>
       </dl>
-      <p class="result-caution">This result is an estimate. Actual energy needs vary, and projected weight-loss rates are not guarantees.</p>
+      <p class="result-note"><strong>Daily calorie target = estimated maintenance calories (TDEE) − selected deficit.</strong> Maintenance combines estimated resting energy needs with your selected activity level.</p>
+      <p class="result-caution">This is a planning estimate, not a guaranteed rate of weight loss. Actual energy expenditure, water weight, and normal scale fluctuations can change results.</p>
       <p class="warn" data-warn hidden role="alert"></p>
       <p class="result-next-step">Need a maintenance estimate without a weight-loss target? Use the <a href="/calculators/tdee/">TDEE Calculator</a>.</p>
     </div>
   </div>
 
   <Fragment slot="formula">
-    <p>The calculator first estimates your maintenance calories (TDEE), then subtracts a daily deficit based on your chosen pace:</p>
+    <p>Maintenance calories are the estimated calories needed to maintain your current weight. This calculator estimates them as Total Daily Energy Expenditure (TDEE), combining estimated resting energy needs with your selected activity level. Choosing a realistic activity level makes the estimate more useful, but real daily expenditure still varies.</p>
+    <p>It then converts your selected pace into a daily deficit and subtracts it from maintenance:</p>
     <p class="formula">Daily deficit = (target kg per week × 7,700) ÷ 7</p>
     <p class="formula">Calorie target = TDEE − daily deficit</p>
-    <p>Because roughly 7,700 calories equal one kilogram of fat, aiming for a 0.5 kg weekly loss means a deficit of about 550 calories per day. A safety note appears if the target falls below common minimum intakes.</p>
+    <p>Because roughly 7,700 calories equal one kilogram of fat, the 0.5 kg/week option corresponds to about 550 calories per day. The pace options are planning estimates, not recommendations, and the largest option is not automatically the most appropriate. A safety note appears if the calculated target falls below a common minimum intake.</p>
+    <p>For a maintenance-focused estimate and more detail about activity multipliers, use the <a href="/calculators/tdee/">TDEE Calculator</a>.</p>
   </Fragment>
 
   <Fragment slot="example">
     <p><strong>Person:</strong> someone with a TDEE of 2,400 kcal aiming to lose 0.5 kg per week.</p>
     <p class="formula">Daily deficit = (0.5 × 7,700) ÷ 7 ≈ 550 kcal</p>
     <p class="formula">Target = 2,400 − 550 = 1,850 kcal/day</p>
-    <p>Eating around <strong>1,850 calories</strong> per day should produce roughly 0.5 kg of loss per week.</p>
+    <p><strong>1,850 calories per day</strong> is the resulting planning estimate. Actual weight change may differ because energy expenditure, food tracking, water weight, and normal fluctuations vary.</p>
   </Fragment>
 </CalculatorLayout>
 
