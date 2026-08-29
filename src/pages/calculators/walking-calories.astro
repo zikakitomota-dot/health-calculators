@@ -3,20 +3,36 @@ import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
 
 const faqs = [
   {
-    q: "How are walking calories estimated?",
-    a: "The calculator uses MET values (Metabolic Equivalent of Task) for walking at different paces. Calories equal MET × your weight in kilograms × time in hours, a standard approach in exercise science.",
+    q: "How many calories do I burn walking?",
+    a: "Enter your body weight, walking speed, and duration. The calculator selects a MET value for that speed and estimates calories with MET × weight in kilograms × time in hours.",
   },
   {
-    q: "Does walking speed matter?",
-    a: "Yes. Faster walking has a higher MET value, so you burn more calories per minute. Walking uphill or on rough terrain also increases energy use beyond what this flat-ground estimate assumes.",
+    q: "How many calories does a 5 km walk burn?",
+    a: "There is no universal total. It depends on body weight, walking speed, and conditions. This calculator estimates distance from your speed and duration, so adjust the duration until the result shows about 5 km.",
   },
   {
-    q: "Why is my fitness tracker different?",
-    a: "Trackers use heart rate, stride, and other sensors, so their numbers can differ. All calorie figures — including this one — are estimates, so expect some variation between methods.",
+    q: "How many calories do I burn walking for an hour?",
+    a: "Set the duration to 60 minutes and enter your weight and walking speed. The result shows total calories and the estimated calorie burn per hour.",
   },
   {
-    q: "Does body weight change the result?",
-    a: "Yes. Heavier bodies use more energy to move, so calories burned rise with body weight for the same pace and duration.",
+    q: "Does walking speed affect calories burned?",
+    a: "Yes. The calculator assigns higher MET values at faster walking speeds, increasing the estimated calories burned per minute and per hour.",
+  },
+  {
+    q: "Does body weight affect walking calorie burn?",
+    a: "Yes. For the same speed and duration, moving a larger body mass generally requires more energy, so the estimate rises with body weight.",
+  },
+  {
+    q: "Does incline increase calories burned?",
+    a: "Walking uphill generally requires more energy, but this calculator currently estimates level walking and does not directly adjust for treadmill incline, hills, or terrain.",
+  },
+  {
+    q: "How are calories burned per kilometre calculated?",
+    a: "When distance is available, the calculator divides total estimated calories by the calculated distance. This rate is specific to the entered weight and speed and should not be treated as universal.",
+  },
+  {
+    q: "Are walking calorie calculators accurate?",
+    a: "They provide estimates, not exact measurements. Fitness, walking efficiency, terrain, incline, wind, and differences between wearable devices can all affect actual energy use.",
   },
 ]
 ---
@@ -28,6 +44,7 @@ const faqs = [
   intro="Estimate how many calories you burn on a walk based on your weight, walking pace, and how long you walk."
   slug="walking-calories"
   faqs={faqs}
+  relatedSlugs={["tdee", "calorie-deficit", "bmr", "bmi"]}
 >
   <div slot="tool" class="tool">
     <div class="unit-toggle" role="group" aria-label="Measurement system">
@@ -41,11 +58,13 @@ const faqs = [
           <div class="field">
             <label for="weight-kg">Weight (kg)</label>
             <input id="weight-kg" name="weightKg" type="number" inputmode="decimal" min="10" max="500" step="0.1" />
+            <span class="hint">Your body weight helps personalize the energy estimate.</span>
             <span class="error" data-error-for="weight-kg" role="alert"></span>
           </div>
           <div class="field">
-            <label for="speed-kmh">Pace (km/h)</label>
+            <label for="speed-kmh">Walking speed (km/h)</label>
             <input id="speed-kmh" name="speedKmh" type="number" inputmode="decimal" min="1" max="12" step="0.1" value="5" />
+            <span class="hint">Speed selects the walking intensity and calculates distance.</span>
             <span class="error" data-error-for="speed-kmh" role="alert"></span>
           </div>
         </div>
@@ -56,11 +75,13 @@ const faqs = [
           <div class="field">
             <label for="weight-lb">Weight (lb)</label>
             <input id="weight-lb" name="weightLb" type="number" inputmode="decimal" min="20" max="1100" step="0.1" />
+            <span class="hint">Your body weight helps personalize the energy estimate.</span>
             <span class="error" data-error-for="weight-lb" role="alert"></span>
           </div>
           <div class="field">
-            <label for="speed-mph">Pace (mph)</label>
+            <label for="speed-mph">Walking speed (mph)</label>
             <input id="speed-mph" name="speedMph" type="number" inputmode="decimal" min="0.5" max="8" step="0.1" value="3" />
+            <span class="hint">Speed selects the walking intensity and calculates distance.</span>
             <span class="error" data-error-for="speed-mph" role="alert"></span>
           </div>
         </div>
@@ -69,7 +90,12 @@ const faqs = [
       <div class="field">
         <label for="duration">Duration (minutes)</label>
         <input id="duration" name="duration" type="number" inputmode="numeric" min="1" max="1440" step="1" value="30" />
+        <span class="hint">Enter any duration, such as 30, 40, 45, or 60 minutes.</span>
         <span class="error" data-error-for="duration" role="alert"></span>
+      </div>
+
+      <div class="field">
+        <span class="hint">Distance is calculated automatically from walking speed × duration; there is no separate distance or incline input.</span>
       </div>
 
       <div class="actions">
@@ -82,19 +108,27 @@ const faqs = [
       <p class="result-label">Estimated calories burned</p>
       <p class="result-value" data-value>—</p>
       <ul data-detail></ul>
+      <p class="result-note">This is an estimate based on body weight, walking intensity, and duration. Terrain, incline, fitness, and walking efficiency can change actual calorie burn.</p>
     </div>
   </div>
 
   <Fragment slot="formula">
-    <p>The calculator uses the MET (Metabolic Equivalent of Task) method:</p>
+    <p>The calculator uses MET values (Metabolic Equivalent of Task) to represent the energy cost of different walking speeds:</p>
     <p class="formula">Calories = MET × weight (kg) × time (hours)</p>
-    <p>Walking MET values rise with pace — from about 2.0 for a very slow stroll to roughly 6.3 for brisk power walking. Imperial inputs are converted to kilograms and km/h before the formula runs.</p>
+    <p>The current model uses 2.0 MET below 3.2 km/h, 2.8 from 3.2 to under 4.0 km/h, 3.5 from 4.0 to under 4.8 km/h, 4.3 from 4.8 to under 5.6 km/h, 5.0 from 5.6 to under 6.4 km/h, and 6.3 at 6.4 km/h or faster. Imperial inputs are converted to kilograms and km/h before the formula runs.</p>
+    <h3>Distance and duration</h3>
+    <p>Distance is estimated as <strong>walking speed × time</strong>. To estimate a 2 km, 4 km, or 5 km walk, enter your expected speed and adjust the duration until the calculated distance matches your route. For example, 5 km at 5 km/h takes 60 minutes.</p>
+    <p>The result also calculates <strong>kcal/hour = total calories ÷ hours</strong> and, when distance is positive, <strong>kcal/km = total calories ÷ kilometres</strong>. These rates describe the entered walk and are not universal constants.</p>
+    <h3>Level walking and incline</h3>
+    <p>This calculator currently models level walking. Incline, hills, rough terrain, wind, individual fitness, and walking efficiency can change actual energy use, so the result should be treated as an estimate.</p>
+    <h3>Walking calories and weight change</h3>
+    <p>Calories burned while walking contribute to daily energy expenditure, but they do not guarantee weight loss. Body-weight change depends on overall energy intake and expenditure over time. Use the <a href="/calculators/tdee/">TDEE Calculator</a> to understand daily energy needs or the <a href="/calculators/calorie-deficit/">Calorie Deficit Calculator</a> to plan a sustainable target.</p>
   </Fragment>
 
   <Fragment slot="example">
-    <p><strong>Person:</strong> 70 kg, walking at 5 km/h (MET ≈ 4.3) for 30 minutes.</p>
-    <p class="formula">Calories = 4.3 × 70 × 0.5 = 150.5 kcal</p>
-    <p>They burn about <strong>150 calories</strong> and cover 2.5 km on that walk.</p>
+    <p><strong>Person:</strong> 70 kg, walking at 5 km/h (MET 4.3) for 60 minutes.</p>
+    <p class="formula">Calories = 4.3 × 70 × 1 = 301 kcal</p>
+    <p>The calculator estimates <strong>301 kcal</strong>, a distance of <strong>5 km</strong>, a rate of <strong>301 kcal/hour</strong>, and about <strong>60 kcal/km</strong>.</p>
   </Fragment>
 </CalculatorLayout>
 
