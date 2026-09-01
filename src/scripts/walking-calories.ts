@@ -42,7 +42,7 @@ export function setupWalkingCalories() {
         min: 10,
         max: 500,
       })
-      speedKmh = readNumber(form.querySelector("#speed-kmh"), "pace in km/h", {
+      speedKmh = readNumber(form.querySelector("#speed-kmh"), "walking speed in km/h", {
         min: 1,
         max: 12,
       })
@@ -51,7 +51,7 @@ export function setupWalkingCalories() {
         min: 20,
         max: 1100,
       })
-      const mph = readNumber(form.querySelector("#speed-mph"), "pace in mph", {
+      const mph = readNumber(form.querySelector("#speed-mph"), "walking speed in mph", {
         min: 0.5,
         max: 8,
       })
@@ -78,12 +78,28 @@ export function setupWalkingCalories() {
       unit === "metric"
         ? `${round(distanceKm, 2)} km`
         : `${round(distanceKm / 1.609344, 2)} mi`
+    const displayWeight =
+      unit === "metric"
+        ? `${round(weightKg, 1)} kg`
+        : `${round(weightKg / 0.45359237, 1)} lb`
+    const displaySpeed =
+      unit === "metric"
+        ? `${round(speedKmh, 1)} km/h`
+        : `${round(speedKmh / 1.609344, 1)} mph`
+    const kcalPerHour = kcal / hours
+    const distanceForUnit = unit === "metric" ? distanceKm : distanceKm / 1.609344
+    const distanceRateUnit = unit === "metric" ? "km" : "mi"
+    const kcalPerDistance = kcal / distanceForUnit
 
     valueEl.textContent = `${Math.round(kcal)} kcal`
     detailEl.innerHTML = `
-      <li>Distance covered: <strong>${distance}</strong></li>
-      <li>Intensity: <strong>${round(met, 1)} MET</strong></li>
-      <li>Burn rate: <strong>${Math.round(kcal / minutes)} kcal/min</strong></li>`
+      <li>Body weight: <strong>${displayWeight}</strong></li>
+      <li>Walking speed: <strong>${displaySpeed}</strong></li>
+      <li>Duration: <strong>${round(minutes, 1)} minutes</strong></li>
+      <li>Estimated distance: <strong>${distance}</strong></li>
+      <li>Walking intensity: <strong>${round(met, 1)} MET</strong></li>
+      <li>Estimated burn rate: <strong>${Math.round(kcalPerHour)} kcal/hour</strong></li>
+      <li>Estimated calories per ${distanceRateUnit}: <strong>${Math.round(kcalPerDistance)} kcal/${distanceRateUnit}</strong></li>`
     result.hidden = false
     result.scrollIntoView({ behavior: "smooth", block: "nearest" })
   })

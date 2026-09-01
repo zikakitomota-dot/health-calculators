@@ -4,31 +4,44 @@ import BodyFields from "@/components/BodyFields.astro"
 
 const faqs = [
   {
-    q: "What is BMR?",
-    a: "Basal Metabolic Rate is the number of calories your body burns at complete rest to keep essential functions running — breathing, circulation, and cell production. It does not include any physical activity.",
+    q: "What does BMR mean?",
+    a: "BMR stands for Basal Metabolic Rate. It estimates the energy your body uses at complete rest to support essential functions such as breathing, circulation, and maintaining body temperature.",
   },
   {
-    q: "Which formula does this use?",
-    a: "It uses the Mifflin-St Jeor equation, widely regarded as one of the most accurate predictive formulas for resting energy expenditure in healthy adults.",
+    q: "How do you calculate BMR?",
+    a: "This calculator uses the Mifflin–St Jeor equation. It combines your age, selected sex, height, and weight to estimate resting energy expenditure in calories per day.",
+  },
+  {
+    q: "Is BMR the same as resting metabolic rate?",
+    a: "The terms are often used similarly in everyday calorie planning. Technically, BMR is measured under stricter resting and fasting conditions, while resting metabolic rate can be measured under less restrictive conditions.",
   },
   {
     q: "What is the difference between BMR and TDEE?",
-    a: "BMR is calories burned at rest. TDEE (Total Daily Energy Expenditure) multiplies BMR by an activity factor to estimate the calories you burn across a full day including movement and exercise.",
+    a: "BMR estimates energy used at rest. TDEE adds an activity factor to estimate total daily energy use, including everyday movement and exercise. BMR alone is not a recommended everyday calorie target.",
   },
   {
-    q: "How can I use my BMR?",
-    a: "BMR is the starting point for estimating daily calorie needs. Combine it with your activity level to find your TDEE, then adjust up or down depending on whether you want to gain, maintain, or lose weight.",
+    q: "Does the BMR calculation differ for men and women?",
+    a: "The Mifflin–St Jeor equation uses a different final constant for the male and female selections. Choose the option that applies to you and the calculator adjusts the formula automatically.",
+  },
+  {
+    q: "What affects a BMR estimate?",
+    a: "The equation uses age, sex, height, and weight. Actual resting energy use can also vary with body composition, health, genetics, and measurement conditions.",
+  },
+  {
+    q: "Why is BMR only an estimate?",
+    a: "BMR equations predict resting energy use from population data rather than measuring it directly. Individual metabolism and body composition can cause actual values to differ.",
   },
 ]
 ---
 
 <CalculatorLayout
   title="BMR Calculator — Basal Metabolic Rate (Mifflin-St Jeor)"
-  description="Calculate your Basal Metabolic Rate (BMR) — the calories your body burns at rest — using the Mifflin-St Jeor equation. Free, instant, metric and imperial."
+  description="Calculate your Basal Metabolic Rate (BMR) and estimated resting energy needs using the Mifflin–St Jeor equation. Supports male and female, metric and imperial inputs."
   heading="BMR Calculator"
-  intro="Estimate the number of calories your body burns at rest each day using the Mifflin-St Jeor equation."
+  intro="Calculate your Basal Metabolic Rate (BMR) — an estimate of the energy your body uses at rest each day based on your age, sex, height, and weight."
   slug="bmr"
   faqs={faqs}
+  relatedSlugs={["tdee", "calorie-deficit", "bmi", "ideal-weight"]}
 >
   <div slot="tool" class="tool">
     <div class="unit-toggle" role="group" aria-label="Measurement system">
@@ -47,24 +60,52 @@ const faqs = [
     <div class="result" data-result hidden aria-live="polite">
       <p class="result-label">Estimated BMR</p>
       <p class="result-value" data-value>—</p>
-      <p class="result-summary">This estimates the energy your body uses at rest for essential functions. It is not the same as your recommended total daily calorie intake.</p>
-      <p class="result-note">TDEE builds on your BMR by accounting for your activity level to estimate total daily energy needs.</p>
+      <p class="result-summary">This estimates the energy your body uses at rest for essential functions such as breathing, circulation, and maintaining body temperature. It is not the same as your total daily calorie requirement.</p>
+      <p class="result-note">TDEE builds on your BMR by including your activity level to estimate total daily energy needs.</p>
       <p class="result-next-step"><a class="btn btn-ghost" href="/calculators/tdee/">Calculate your TDEE →</a></p>
+      <p class="result-caution">BMR is an estimate, not a measured metabolic rate or a recommended everyday calorie target.</p>
     </div>
   </div>
 
-  <Fragment slot="formula">
-    <p>The Mifflin-St Jeor equation estimates resting energy from weight, height, age, and sex:</p>
-    <p class="formula">Men: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age + 5</p>
-    <p class="formula">Women: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age − 161</p>
-    <p>The only difference between the two is the final constant, which reflects average differences in body composition. Imperial inputs are converted to kilograms and centimetres before the formula is applied.</p>
-  </Fragment>
+  <Fragment slot="content">
+    <section class="prose" aria-labelledby="what-is-bmr-heading">
+      <h2 id="what-is-bmr-heading">What Is Basal Metabolic Rate?</h2>
+      <p><strong>BMR stands for Basal Metabolic Rate.</strong> It represents the energy your body is estimated to use while completely at rest to keep essential processes running, including breathing, circulation, cell activity, and temperature regulation.</p>
+      <p>A BMR calculator estimates this resting energy in calories per day. It does not include the additional energy used through standing, walking, work, exercise, or other daily activity.</p>
+    </section>
 
-  <Fragment slot="example">
-    <p><strong>Person:</strong> a 30-year-old woman, 165 cm tall, weighing 62 kg.</p>
-    <p class="formula">BMR = 10×62 + 6.25×165 − 5×30 − 161</p>
-    <p class="formula">= 620 + 1031.25 − 150 − 161 = 1340 kcal/day</p>
-    <p>She burns roughly <strong>1,340 calories</strong> per day at rest.</p>
+    <section class="prose" aria-labelledby="calculate-bmr-heading">
+      <h2 id="calculate-bmr-heading">How Is BMR Calculated?</h2>
+      <p>This calculator uses the <strong>Mifflin–St Jeor equation</strong>. The calculation combines weight, height, and age, then applies the constant for the selected sex:</p>
+      <p class="formula">Male: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age + 5</p>
+      <p class="formula">Female: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age − 161</p>
+      <p>The male and female selections use different final constants. Imperial inputs are converted to kilograms and centimetres before the same equation is applied.</p>
+      <div class="example-box">
+        <p><strong>Example:</strong> A 30-year-old woman is 165 cm tall and weighs 62 kg.</p>
+        <p class="formula">BMR = 10 × 62 + 6.25 × 165 − 5 × 30 − 161</p>
+        <p class="formula">= 1,340 kcal/day</p>
+        <p>Her estimated resting energy use is <strong>1,340 kcal/day</strong>. This is a BMR estimate, not her total daily calorie requirement.</p>
+      </div>
+    </section>
+
+    <section class="prose" aria-labelledby="bmr-rmr-heading">
+      <h2 id="bmr-rmr-heading">BMR vs Resting Metabolic Rate</h2>
+      <p>Basal Metabolic Rate and resting metabolic rate (RMR) both describe energy used while resting, so the terms are often used similarly in everyday calorie-planning contexts. Technically, BMR is measured under stricter conditions, including complete rest and fasting, while an RMR measurement may use less restrictive conditions.</p>
+      <p>This page provides an equation-based BMR estimate; it does not clinically measure either BMR or RMR.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="bmr-tdee-heading">
+      <h2 id="bmr-tdee-heading">BMR vs TDEE: Resting Energy and Daily Energy</h2>
+      <p class="formula"><strong>BMR</strong> = estimated energy used at rest</p>
+      <p class="formula"><strong>TDEE</strong> = estimated total daily energy use after activity is included</p>
+      <p>You should not normally treat BMR alone as an everyday calorie target because normal daily activity requires additional energy. Use the <a href="/calculators/tdee/">TDEE Calculator</a> to add an activity factor and estimate total daily energy needs.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="bmr-factors-heading">
+      <h2 id="bmr-factors-heading">What Affects BMR?</h2>
+      <p>The equation uses age, selected sex, height, and weight because these variables help predict resting energy expenditure. Actual metabolism can also vary with body composition, genetics, health, and measurement conditions, which is why the result should be treated as an estimate.</p>
+      <p>For separate context, the <a href="/calculators/bmi/">BMI Calculator</a> provides an adult height-and-weight screening estimate, while the <a href="/calculators/ideal-weight/">Ideal Weight Calculator</a> provides formula-based reference ranges. For a gradual weight-loss starting point based on total daily energy rather than BMR alone, use the <a href="/calculators/calorie-deficit/">Calorie Deficit Calculator</a>.</p>
+    </section>
   </Fragment>
 </CalculatorLayout>
 

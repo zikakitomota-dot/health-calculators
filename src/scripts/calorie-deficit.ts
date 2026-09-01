@@ -49,7 +49,7 @@ export function setupCalorieDeficit() {
     const floor = body.sex === "male" ? 1500 : 1200
     warnEl.hidden = target >= floor
     if (target < floor) {
-      warnEl.textContent = `This target is below ${floor} kcal, a common minimum for ${body.sex === "male" ? "men" : "women"}. Consider a slower rate of loss and speak with a healthcare professional.`
+      warnEl.textContent = `This calculated target is below ${floor} kcal/day, a commonly used minimum reference for ${body.sex === "male" ? "men" : "women"}. It should not be treated as a recommended intake. Consider a slower pace and speak with a qualified healthcare professional for personalised advice.`
     }
     result.hidden = false
     result.scrollIntoView({ behavior: "smooth", block: "nearest" })

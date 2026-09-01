@@ -3,31 +3,44 @@ import CalculatorLayout from "@/layouts/CalculatorLayout.astro"
 
 const faqs = [
   {
-    q: "Is there one true ideal weight?",
-    a: "No. Ideal body weight formulas give a rough reference range, not an exact target. Healthy weight depends on muscle mass, frame size, age, and overall health, so treat the result as a guideline.",
+    q: "What does an ideal weight calculator estimate?",
+    a: "It estimates a reference weight from your height and sex using established ideal-weight formulas. The result is a general comparison point, not a medically prescribed target.",
   },
   {
-    q: "Which formulas does this use?",
-    a: "It shows results from three well-known equations — Robinson (1983), Devine (1974), and Miller (1983) — which are all based on height and sex. The range between them gives a sensible reference band.",
+    q: "What is a healthy weight for my height?",
+    a: "Height is useful for estimating reference weights, but it cannot determine health by itself. Body composition, muscle mass, frame size, medical context, and other factors also matter. A BMI calculation can provide a separate height-and-weight screening measure.",
   },
   {
-    q: "Why does it only ask for height and sex?",
-    a: "These classic formulas were designed to estimate a reference weight from height alone, with a small adjustment for sex. They do not account for body composition, which is why they are only a starting point.",
+    q: "Why do the ideal-weight formulas give different results?",
+    a: "Robinson, Devine, and Miller use different starting weights and adjustments for each inch above 5 feet. Their estimates therefore vary slightly, which is why the calculator presents the lowest and highest results as a reference range.",
   },
   {
-    q: "Should I aim for the exact number?",
-    a: "Not necessarily. A healthy weight is a range, not a single figure. Use this alongside BMI and, ideally, guidance from a healthcare professional.",
+    q: "Does age affect this ideal-weight calculation?",
+    a: "No. These traditional formulas are based primarily on height and sex rather than age, so this calculator does not adjust its result directly for age. Age can still be relevant to an individual health assessment.",
+  },
+  {
+    q: "Is ideal weight the same as BMI?",
+    a: "No. Ideal-weight formulas estimate a reference weight from height and sex. BMI uses both your current weight and height to produce a separate adult weight-status screening value.",
+  },
+  {
+    q: "Is there one perfect weight?",
+    a: "No. There is no universally perfect weight for everyone of the same height. Treat the displayed range as an educational reference rather than a single correct target.",
+  },
+  {
+    q: "Should I use kilograms or pounds?",
+    a: "Use whichever measurement system is most familiar. Metric mode shows results in kilograms, while imperial mode shows the same formula estimates converted to pounds.",
   },
 ]
 ---
 
 <CalculatorLayout
-  title="Ideal Weight Calculator — Healthy Weight Range by Height"
-  description="Estimate a healthy target weight range from your height and sex using Robinson, Devine, and Miller formulas. Supports metric and imperial units."
+  title="Ideal Weight Calculator — Reference Weight by Height"
+  description="Estimate a reference weight range from your height and sex using Robinson, Devine, and Miller formulas. View results in kilograms or pounds."
   heading="Ideal Weight Calculator"
-  intro="Estimate a healthy reference weight range based on your height and sex, using three established formulas."
+  intro="Estimate a height-based reference weight range using three established formulas. Compare results in kilograms or pounds and learn what the range means."
   slug="ideal-weight"
   faqs={faqs}
+  relatedSlugs={["bmi", "bmr", "tdee", "calorie-deficit"]}
 >
   <div slot="tool" class="tool">
     <div class="unit-toggle" role="group" aria-label="Measurement system">
@@ -74,25 +87,59 @@ const faqs = [
     </form>
 
     <div class="result" data-result hidden aria-live="polite">
-      <p class="result-label">Estimated healthy weight range</p>
+      <p class="result-label">Estimated reference weight</p>
       <p class="result-value" data-value>—</p>
-      <ul data-list></ul>
+      <p class="result-summary">This is a height-based reference estimate, not a single medically prescribed or “perfect” weight.</p>
+      <ul data-list aria-label="Formula estimates"></ul>
+      <p class="result-note">Different formulas use slightly different assumptions, so their estimates can vary. Metric results are shown in kilograms; imperial results are shown in pounds.</p>
+      <p class="result-caution">These estimates do not directly account for muscle mass, body composition, frame size, pregnancy, medical conditions, or your individual health context.</p>
     </div>
   </div>
 
-  <Fragment slot="formula">
-    <p>Each formula starts from a base weight for a height of 5 feet (152.4 cm) and adds a fixed amount for every inch above that:</p>
-    <p class="formula">Robinson: 52 kg (men) / 49 kg (women) + 1.9 / 1.7 kg per inch over 5 ft</p>
-    <p class="formula">Devine: 50 kg (men) / 45.5 kg (women) + 2.3 kg per inch over 5 ft</p>
-    <p class="formula">Miller: 56.2 kg (men) / 53.1 kg (women) + 1.41 / 1.36 kg per inch over 5 ft</p>
-    <p>The calculator reports each result and uses the lowest and highest as a reference range.</p>
-  </Fragment>
+  <Fragment slot="content">
+    <section class="prose" aria-labelledby="reference-weight-heading">
+      <h2 id="reference-weight-heading">What Does “Ideal Weight” Mean?</h2>
+      <p>An ideal weight calculator provides a <strong>reference weight estimate</strong>, not a definitive target. This tool compares three traditional formulas and displays the lowest and highest estimates as a range.</p>
+      <p>Terms such as “ideal,” “healthy,” and “perfect” weight are sometimes used interchangeably, but no single number can describe the right weight for every person. The result is best used as a starting point for context.</p>
+    </section>
 
-  <Fragment slot="example">
-    <p><strong>Person:</strong> a man 178 cm tall (about 70 inches, so 10 inches over 5 ft).</p>
-    <p class="formula">Devine = 50 + 2.3 × 10 = 73.0 kg</p>
-    <p class="formula">Robinson = 52 + 1.9 × 10 = 71.0 kg</p>
-    <p>His reference range is roughly <strong>71–75 kg</strong> depending on the formula used.</p>
+    <section class="prose" aria-labelledby="height-weight-heading">
+      <h2 id="height-weight-heading">How Height Is Used to Estimate Reference Weight</h2>
+      <p>Height is the main driver in all three formulas. Each starts with a base weight at 5 feet (152.4 cm) and adjusts that estimate for additional height, with separate constants for the male and female selections.</p>
+      <p>Height alone does not determine health. The formulas do not directly measure body composition, muscle mass, or frame size, so their results should not be treated as a diagnosis or prescribed weight goal.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="formula-heading">
+      <h2 id="formula-heading">How the Ideal-Weight Formulas Work</h2>
+      <p>The calculator uses three established reference methods. Their different base weights and height adjustments explain why the results are not identical:</p>
+      <p class="formula">Robinson: 52 kg (men) / 49 kg (women) + 1.9 / 1.7 kg per inch over 5 ft</p>
+      <p class="formula">Devine: 50 kg (men) / 45.5 kg (women) + 2.3 kg per inch over 5 ft</p>
+      <p class="formula">Miller: 56.2 kg (men) / 53.1 kg (women) + 1.41 / 1.36 kg per inch over 5 ft</p>
+      <p>All calculations are performed in kilograms. Imperial mode converts each result to pounds for display without changing the underlying formula.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="example-heading">
+      <h2 id="example-heading">Example Calculation</h2>
+      <div class="example-box">
+        <p><strong>Person:</strong> a man 178 cm tall (about 70.1 inches, or 10.1 inches over 5 ft).</p>
+        <p class="formula">Devine = 50 + 2.3 × 10.1 ≈ 73.2 kg</p>
+        <p class="formula">Robinson = 52 + 1.9 × 10.1 ≈ 71.1 kg</p>
+        <p class="formula">Miller = 56.2 + 1.41 × 10.1 ≈ 70.4 kg</p>
+        <p>The three formulas produce a reference range of roughly <strong>70.4–73.2 kg</strong>. The variation reflects their different assumptions rather than an error.</p>
+      </div>
+    </section>
+
+    <section class="prose" aria-labelledby="age-heading">
+      <h2 id="age-heading">Does Age Affect the Result?</h2>
+      <p>Most traditional ideal-weight formulas, including the three used here, are based on height and sex rather than age. This calculator therefore does not adjust its estimate directly for age.</p>
+      <p>Age may still matter in a broader assessment of health, body composition, and personal circumstances. It simply is not part of these particular equations.</p>
+    </section>
+
+    <section class="prose" aria-labelledby="interpret-heading">
+      <h2 id="interpret-heading">How to Interpret Your Estimate</h2>
+      <p>Use the range as an educational reference rather than a required target. It does not directly account for muscle mass, body composition, frame size, pregnancy, medical conditions, or individual health needs.</p>
+      <p>For a separate height-and-current-weight screening estimate, use the <a href="/calculators/bmi/">BMI Calculator</a>. To explore resting and total daily energy needs, use the <a href="/calculators/bmr/">BMR Calculator</a> or <a href="/calculators/tdee/">TDEE Calculator</a>.</p>
+    </section>
   </Fragment>
 </CalculatorLayout>
 

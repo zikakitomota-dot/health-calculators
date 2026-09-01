@@ -8,7 +8,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "indexnow": "node scripts/submit-indexnow.mjs",
+    "indexnow:dry-run": "node scripts/submit-indexnow.mjs --dry-run",
+    "indexnow:deployment": "node scripts/run-indexnow-after-deploy.mjs",
+    "test:indexnow": "node --test scripts/indexnow.test.mjs scripts/indexnow-deployment.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

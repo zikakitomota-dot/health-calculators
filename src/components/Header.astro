@@ -4,7 +4,7 @@ const isActive = (href: string) =>
   href === "/" ? path === "/" : path.startsWith(href)
 
 const links = [
-  { href: "/", label: "Home" },
+  { href: "/", label: "All Calculators" },
   { href: "/calculators/bmi/", label: "BMI" },
   { href: "/calculators/bmr/", label: "BMR" },
   { href: "/calculators/tdee/", label: "TDEE" },
@@ -18,10 +18,15 @@ const links = [
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="brand">
-      <span class="brand-mark" aria-hidden="true">H</span>
-      <span>Health Calculators</span>
-    </a>
+    <div class="brand-lockup">
+      <a href="/" class="brand">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span>Health Calculators</span>
+      </a>
+      <span class="parent-attribution">
+        by <a href="https://zaleastudio.com/">Zalea Studio</a>
+      </span>
+    </div>
     <button
       class="nav-toggle"
       aria-expanded="false"

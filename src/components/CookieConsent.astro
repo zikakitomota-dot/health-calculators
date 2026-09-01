@@ -1,6 +1,6 @@
 ---
-// Cookie consent area. Stores the choice locally so it can later be wired to
-// Google Consent Mode (e.g. gtag('consent', 'update', {...})).
+// Cookie consent area. The default Consent Mode state is set in BaseLayout
+// before Google Analytics loads; these controls update that state.
 ---
 
 <div
@@ -30,12 +30,18 @@
 
     const decide = (value: "accepted" | "declined") => {
       localStorage.setItem(KEY, value)
+      const analyticsWindow = window as Window & {
+        gtag?: (...args: unknown[]) => void
+      }
+      analyticsWindow.gtag?.("consent", "update", {
+        analytics_storage: value === "accepted" ? "granted" : "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+      })
+      document.documentElement.dataset.analyticsConsent =
+        value === "accepted" ? "granted" : "denied"
       banner.setAttribute("hidden", "")
-      // Hook for Google Consent Mode:
-      // window.gtag?.("consent", "update", {
-      //   analytics_storage: value === "accepted" ? "granted" : "denied",
-      //   ad_storage: value === "accepted" ? "granted" : "denied",
-      // })
       document.dispatchEvent(
         new CustomEvent("cookie-consent", { detail: value }),
       )

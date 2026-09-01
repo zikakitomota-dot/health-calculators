@@ -1,0 +1,27 @@
+name: Health IndexNow after production
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  checks: read
+
+concurrency:
+  group: health-indexnow-production
+  cancel-in-progress: false
+
+jobs:
+  submit-changed-urls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Wait for production and submit changed URLs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          INDEXNOW_BASE_SHA: ${{ github.event.before }}
+        run: npm run indexnow:deployment

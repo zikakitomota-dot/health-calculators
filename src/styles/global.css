@@ -130,6 +130,26 @@ a:hover {
   color: var(--text);
   text-decoration: none;
 }
+.brand-lockup {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+}
+.parent-attribution {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.15;
+  margin-left: 2.6rem;
+  margin-top: -0.15rem;
+}
+.parent-attribution a {
+  color: var(--primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+.parent-attribution a:hover {
+  text-decoration: underline;
+}
 .brand-mark {
   display: inline-grid;
   place-items: center;
@@ -172,7 +192,6 @@ a:hover {
   background: var(--primary-soft);
   color: var(--primary-dark);
 }
-
 @media (max-width: 820px) {
   .nav-toggle {
     display: inline-block;
@@ -288,6 +307,9 @@ main {
   .calc-layout {
     grid-template-columns: minmax(0, 1fr) 18rem;
     align-items: start;
+  }
+  .calc-layout--without-ads {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 .tool {

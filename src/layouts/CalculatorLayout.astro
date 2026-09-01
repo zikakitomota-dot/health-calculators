@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro"
 import AdSlot from "@/components/AdSlot.astro"
+import { HEALTH_ADVERTISING_ENABLED } from "@/config/advertising"
 import { getCalculator, relatedCalculators } from "@/data/calculators"
 
 interface FaqItem {
@@ -31,6 +32,8 @@ const {
   breadcrumbLabel,
   relatedSlugs,
 } = Astro.props
+const breadcrumbName = breadcrumbLabel ?? heading
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href
 const requestedRelated = relatedSlugs
   ?.map((relatedSlug) => getCalculator(relatedSlug))
   .filter((calculator) => calculator !== undefined)
@@ -47,44 +50,38 @@ const faqJsonLd = {
   })),
 }
 
-const jsonLd = breadcrumbLabel
-  ? {
-      "@context": "https://schema.org",
-      "@graph": [
-        faqJsonLd,
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    faqJsonLd,
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
         {
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Health Calculators",
-              item: "https://health.zaleastudio.com/",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: breadcrumbLabel,
-              item: canonical,
-            },
-          ],
+          "@type": "ListItem",
+          position: 1,
+          name: "Health Calculators",
+          item: "https://health.zaleastudio.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: breadcrumbName,
+          item: canonicalURL,
         },
       ],
-    }
-  : { "@context": "https://schema.org", ...faqJsonLd }
+    },
+  ],
+}
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
-  {
-    breadcrumbLabel && (
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="/">Health Calculators</a></li>
-          <li aria-current="page">{breadcrumbLabel}</li>
-        </ol>
-      </nav>
-    )
-  }
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Health Calculators</a></li>
+      <li aria-current="page">{breadcrumbName}</li>
+    </ol>
+  </nav>
 
   <div class="page-intro">
     <p class="eyebrow">Health Calculator</p>
@@ -92,7 +89,10 @@ const jsonLd = breadcrumbLabel
     <p class="lead">{intro}</p>
   </div>
 
-  <div class="calc-layout" style="margin-top:2rem;">
+  <div
+    class={`calc-layout${HEALTH_ADVERTISING_ENABLED ? "" : " calc-layout--without-ads"}`}
+    style="margin-top:2rem;"
+  >
     <div>
       <!-- Calculator tool goes here -->
       <slot name="tool" />
@@ -159,9 +159,13 @@ const jsonLd = breadcrumbLabel
       </p>
     </div>
 
-    <div class="sidebar">
-      <AdSlot label="Advertisement space" />
-      <AdSlot label="Advertisement space" />
-    </div>
+    {
+      HEALTH_ADVERTISING_ENABLED && (
+        <div class="sidebar">
+          <AdSlot label="Advertisement space" />
+          <AdSlot label="Advertisement space" />
+        </div>
+      )
+    }
   </div>
 </BaseLayout>

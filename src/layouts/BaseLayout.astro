@@ -18,22 +18,14 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Set Consent Mode before loading Google Analytics. -->
+    <script is:inline src="/analytics-consent.js"></script>
+
+    <!-- Google Analytics tag. Analytics storage remains denied until consent. -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-NE4EWMSCGB"
     ></script>
-  
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-  
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag("js", new Date());
-      gtag("config", "G-NE4EWMSCGB");
-    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0f7d6b" />
